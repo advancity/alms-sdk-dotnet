@@ -1,0 +1,4 @@
+c:\users\emre.gokce\documents\visual studio 2012\Projects\AdvancitySDK\AdvancitySDK\bin\Debug\AdvancitySDK.dll
+c:\users\emre.gokce\documents\visual studio 2012\Projects\AdvancitySDK\AdvancitySDK\bin\Debug\AdvancitySDK.pdb
+c:\users\emre.gokce\documents\visual studio 2012\Projects\AdvancitySDK\AdvancitySDK\obj\Debug\AdvancitySDK.dll
+c:\users\emre.gokce\documents\visual studio 2012\Projects\AdvancitySDK\AdvancitySDK\obj\Debug\AdvancitySDK.pdb
