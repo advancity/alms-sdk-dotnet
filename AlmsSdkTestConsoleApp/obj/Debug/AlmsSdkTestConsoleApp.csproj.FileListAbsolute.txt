@@ -25,3 +25,15 @@ C:\Users\zafer.gurel\Downloads\AdvancitySDK\AdvancitySDK\AlmsSdkTestConsoleApp\b
 C:\Users\zafer.gurel\Documents\GitHub\ALMS-SDK-Solution\AlmsSdkTestConsoleApp\bin\Debug\AlmsSdkTestConsoleApp.exe.config
 C:\Users\zafer.gurel\Documents\GitHub\ALMS-SDK-Solution\AlmsSdkTestConsoleApp\obj\Debug\AlmsSdkTestConsoleApp.exe
 C:\Users\zafer.gurel\Documents\GitHub\ALMS-SDK-Solution\AlmsSdkTestConsoleApp\obj\Debug\AlmsSdkTestConsoleApp.pdb
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\AlmsSdkTestConsoleApp.exe.config
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\obj\Debug\AlmsSdkTestConsoleApp.exe
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\obj\Debug\AlmsSdkTestConsoleApp.pdb
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\AlmsSdkTestConsoleApp.exe
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\AlmsSdkTestConsoleApp.pdb
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\AlmsSdk.dll
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\Newtonsoft.Json.dll
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\AlmsSdk.pdb
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\Newtonsoft.Json.xml
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\obj\Debug\AlmsSdkTestConsoleApp.csprojResolveAssemblyReference.cache

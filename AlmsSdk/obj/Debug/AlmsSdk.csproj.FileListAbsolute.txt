@@ -3,3 +3,8 @@ C:\Users\zafer.gurel\Downloads\AdvancitySDK\AdvancitySDK\AdvancitySDK\bin\Debug\
 C:\Users\zafer.gurel\Downloads\AdvancitySDK\AdvancitySDK\AdvancitySDK\bin\Debug\AlmsSdk.pdb
 C:\Users\zafer.gurel\Downloads\AdvancitySDK\AdvancitySDK\AdvancitySDK\obj\Debug\AlmsSdk.dll
 C:\Users\zafer.gurel\Downloads\AdvancitySDK\AdvancitySDK\AdvancitySDK\obj\Debug\AlmsSdk.pdb
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Debug\AlmsSdk.dll
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Debug\AlmsSdk.pdb
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\obj\Debug\AlmsSdk.csprojResolveAssemblyReference.cache
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\obj\Debug\AlmsSdk.dll
+C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\obj\Debug\AlmsSdk.pdb

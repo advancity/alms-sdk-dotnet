@@ -17,21 +17,28 @@ namespace AlmsSdkTestConsoleApp
     {
         static void Main(string[] args)
         {
-            Save();
-            Get();
-            Search();
-            Update();
-            Delete();
+            /* The following methods tests SDK methods and writes to the console output.
+             * Before running this application, please check app.config to set ALSM API credentials and ALMS base url.
+             */
+            CreateUser();
+            GetUser();
+            SearchUsers();
+            UpdateUser();
+            DeleteUser();
+
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue.");
+            Console.In.Read();
         }
 
-        #region Sample codes
+        #region sample user operations
         
-        static void Get() 
+        static void GetUser() 
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
-            var user = uService.Get("sample_user"); //Test_user kullanıcısını getir
+            User user = uService.Get("sample_user"); // get user data by username
 
             if (uService.LastError != null)
             {
@@ -40,16 +47,17 @@ namespace AlmsSdkTestConsoleApp
             }
             else
             {
-                //do something
+                string name = user.FirstName + " " + user.LastName;
+                Console.WriteLine(string.Format("Name of user {0} is {1}.", user.UserName, name));
             }
         }
 
-        static void Search()
+        static void SearchUsers()
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
-            var user = uService.Search("User_"); //içinde "User_" geçenleri getir
+            IEnumerable<User> users = uService.Search("User_"); // get users who contain User_ in their names, surnames, email addresses or usernames.
 
             if (uService.LastError != null)
             {
@@ -58,16 +66,17 @@ namespace AlmsSdkTestConsoleApp
             }
             else
             {
-                //do something
+                Console.WriteLine(string.Format("Found {0} users.", users.Count()));
             }
         }
 
-        static void Update()
+        static void UpdateUser()
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
             var user = new User();
+            // the following are required fields.
             user.UserName = "sample_user";
             user.Password = "MyPassword!";
             user.FirstName = "Sample";
@@ -75,7 +84,7 @@ namespace AlmsSdkTestConsoleApp
             user.Email = "sample_user@alms.com.tr";
             user.Types = UserType.User.GetHashCode();
 
-            // nullable
+            // the following are optional.
             user.MobilePhone = "+905327775544";
             user.Comment = "This user is created by Alms API.";
             user.Culture = "tr-TR";
@@ -84,6 +93,7 @@ namespace AlmsSdkTestConsoleApp
             user.Country = "Türkiye";
             user.Occupation = "Software Engineer";
             user.Gender = "Male"; // OR Female
+            // website url is optional but if you set it, it must be a valid URL.
             user.WebsiteURL = "http://www.alms.com.tr";
             user.CitizenshipIdentifier = "2433452456";
             user.Title = "Dr.";
@@ -109,6 +119,7 @@ namespace AlmsSdkTestConsoleApp
             user.CustomProperty18 = "Custom prop 18";
             user.CustomProperty19 = "Custom prop 19";
             user.CustomProperty20 = "Custom prop 20";
+
             bool success = uService.Update(user);
 
             if (!success)
@@ -118,16 +129,16 @@ namespace AlmsSdkTestConsoleApp
             }
             else
             {
-                //do something
+                Console.WriteLine(string.Format("User {0} was updated.", user.UserName));
             }
         }
 
-        static void Delete()
+        static void DeleteUser()
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
-
-            bool success = uService.Delete("sample_user");
+            string username = "sample_user";
+            bool success = uService.Delete(username);
 
             if (!success)
             {
@@ -136,16 +147,17 @@ namespace AlmsSdkTestConsoleApp
             }
             else
             {
-                //do something
+                Console.WriteLine(string.Format("User {0} was deleted.", username));
             }
         }
 
-        static void Save()
+        static void CreateUser()
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
             var user = new User();
+            // the following are required fields.
             user.UserName = "sample_user";
             user.Password = "MyPassword!";
             user.FirstName = "Sample";
@@ -153,7 +165,7 @@ namespace AlmsSdkTestConsoleApp
             user.Email = "sample_user@alms.com.tr";
             user.Types = UserType.User.GetHashCode();
 
-            // nullable
+            // the following are optional fields.
             user.MobilePhone = "+905327775544";
             user.Comment = "This user is created by Alms API.";
             user.Culture = "tr-TR";
@@ -162,6 +174,7 @@ namespace AlmsSdkTestConsoleApp
             user.Country = "Türkiye";
             user.Occupation = "Software Engineer";
             user.Gender = "Male"; // OR Female
+            // website url is optional but if you set it, it must be a valid URL.
             user.WebsiteURL = "http://www.alms.com.tr";
             user.CitizenshipIdentifier = "2433452456";
             user.Title = "Dr.";
@@ -187,7 +200,7 @@ namespace AlmsSdkTestConsoleApp
             user.CustomProperty18 = "Custom prop 18";
             user.CustomProperty19 = "Custom prop 19";
             user.CustomProperty20 = "Custom prop 20";
-            bool success = uService.Save(user);
+            bool success = uService.Create(user);
 
             if (!success)
             {
@@ -196,7 +209,7 @@ namespace AlmsSdkTestConsoleApp
             }
             else
             {
-                //do something
+                Console.WriteLine(string.Format("User {0} was created.", user.UserName));
             }
         }
 

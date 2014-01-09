@@ -61,7 +61,7 @@ namespace AlmsSdk.Services
             return users;
         }
 
-        public bool Save(User User)
+        public bool Create(User User)
         {
             bool status = false;
 

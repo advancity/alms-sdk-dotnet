@@ -11,7 +11,7 @@ namespace AlmsSdk.Services
     {
         User Get(string Username);
         IEnumerable<User> Search(string Keyword);
-        bool Save(User User); 
+        bool Create(User User); 
         bool Delete(string Username); 
         bool Update(User User); 
         Error LastError { get; }
