@@ -1,0 +1,13 @@
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\AlmsSdk.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\AlmsSdk.pdb
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\Newtonsoft.Json.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\RestSharp.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\System.Net.Http.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\System.Net.Http.WebRequest.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\Newtonsoft.Json.xml
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\RestSharp.xml
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\System.Net.Http.xml
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\bin\Release\System.Net.Http.WebRequest.xml
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\obj\Release\AlmsSdk.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\obj\Release\AlmsSdk.pdb
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdk\obj\Release\AlmsSdk.csprojResolveAssemblyReference.cache

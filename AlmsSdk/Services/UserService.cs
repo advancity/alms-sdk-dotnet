@@ -7,6 +7,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using AlmsSdk.Domain;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace AlmsSdk.Services
 {
@@ -15,8 +17,8 @@ namespace AlmsSdk.Services
         #region Constants
 
         private AuthConfig config = null;
-        public DateTime RequestDate;
-        HttpClient client = null;
+        private RestClient client = null;
+        public DateTimeOffset RequestDate;
         public Error LastError { get; private set; }
 
         #endregion
@@ -26,8 +28,7 @@ namespace AlmsSdk.Services
         public UserService(AuthConfig authConfig, string baseApiURI)
         {
             config = authConfig;
-            client = new HttpClient() { BaseAddress = new Uri(baseApiURI) };
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client = new RestClient(baseApiURI);
         }
 
         #endregion
@@ -36,69 +37,62 @@ namespace AlmsSdk.Services
 
         public User Get(string Username)
         {
-            User user = null;
             setClientHeaders();
 
-            HttpResponseMessage response = client.GetAsync(string.Format("/api/user?username={0}", Username)).Result;
-            if (!response.IsSuccessStatusCode)
-                setError(response);
-            else
-                user = response.Content.ReadAsAsync<User>().Result;
-            return user;
+            IRestRequest request = new RestRequest(string.Format("/api/user?username={0}", Username), Method.GET);
+            IRestResponse response = client.Get<User>(request);
+
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<User>).Data;
+            else { setError(response); return null; }
         }
 
         public IEnumerable<User> Search(string Keyword)
         {
-            IEnumerable<User> users = null;
             setClientHeaders();
 
-            HttpResponseMessage response = client.GetAsync(string.Format("/api/user/search?keyword={0}", Keyword)).Result;
+            IRestRequest request = new RestRequest(string.Format("/api/user/search?keyword={0}", Keyword), Method.GET);
+            IRestResponse response = client.Get<List<User>>(request);
 
-            if (!response.IsSuccessStatusCode)
-                setError(response);
-            else
-                users = response.Content.ReadAsAsync<IEnumerable<User>>().Result;
-            return users;
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<List<User>>).Data;
+            else { setError(response); return null; }
         }
 
         public bool Create(User User)
         {
-            bool status = false;
-
             setClientHeaders();
-            HttpResponseMessage response = client.PostAsJsonAsync("/api/user", User).Result;
+            IRestRequest request = new RestRequest("/api/user", Method.POST);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(User), ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
 
-            if (!response.IsSuccessStatusCode)
-                setError(response);
-            else
-                status = true;
-            return status;
-        }
+            IRestResponse response = client.Post<bool>(request);
 
-        public bool Delete(string Username)
-        {
-            bool status = false;
-            setClientHeaders();
-            HttpResponseMessage response = client.DeleteAsync(string.Format("/api/user?username={0}", Username)).Result;
-
-            if (!response.IsSuccessStatusCode)
-                setError(response);
-            else
-                status = true;
-            return status;
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { setError(response); return false; }
         }
 
         public bool Update(User User)
         {
-            bool status = false;
             setClientHeaders();
-            HttpResponseMessage response = client.PutAsJsonAsync("/api/user", User).Result;
+            IRestRequest request = new RestRequest("/api/user", Method.PUT);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(User), ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
 
-            if (!response.IsSuccessStatusCode)
-                setError(response);
-            else
-                status = true;
-            return status;
+            IRestResponse response = client.Execute(request);
+
+
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { setError(response); return false; }
+        }
+
+        public bool Delete(string Username)
+        {
+            setClientHeaders();
+
+            IRestRequest request = new RestRequest(string.Format("/api/user?username={0}", Username), Method.DELETE);
+            IRestResponse response = client.Delete(request);
+
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { setError(response); return false; }
         }
 
         #endregion
@@ -107,17 +101,18 @@ namespace AlmsSdk.Services
 
         private void setClientHeaders()
         {
-            RequestDate = DateTime.UtcNow;
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("alms-token", string.Format("apiAccessKey={0}, nonce={1}", config.ApiAccessKey, Utilities.GenerateNonce(config, RequestDate)));
-            client.DefaultRequestHeaders.Date = RequestDate;
+            RequestDate = DateTimeOffset.UtcNow;
+            client.AddDefaultHeader("Authorization", string.Format("alms-token apiAccessKey={0}, nonce={1}", config.ApiAccessKey, Utilities.GenerateNonce(config, RequestDate)));
+            client.AddDefaultHeader("Date", RequestDate.ToString());
         }
 
-        private void setError(HttpResponseMessage response)
+        private void setError(IRestResponse response)
         {
-            LastError = new Error();
-            LastError.ErrorCode = response.StatusCode.GetHashCode();
-            var errorMessage = response.Content.ReadAsAsync<ServiceErrorMessage>().Result;
-            LastError.ErrorMessage = errorMessage != null ? errorMessage.Message : "";
+            LastError = new Error()
+            {
+                ErrorCode = response.StatusCode.GetHashCode(),
+                ErrorMessage = response.StatusDescription
+            };
         }
 
         #endregion

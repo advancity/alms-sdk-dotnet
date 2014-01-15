@@ -1,0 +1,16 @@
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\AlmsSdkTestConsoleApp.exe.config
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\obj\Release\AlmsSdkTestConsoleApp.csprojResolveAssemblyReference.cache
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\AlmsSdkTestConsoleApp.exe
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\AlmsSdkTestConsoleApp.pdb
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\AlmsSdk.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\System.Net.Http.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\System.Net.Http.WebRequest.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\RestSharp.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\Newtonsoft.Json.dll
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\AlmsSdk.pdb
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\System.Net.Http.xml
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\System.Net.Http.WebRequest.xml
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\RestSharp.xml
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\Newtonsoft.Json.xml
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\obj\Release\AlmsSdkTestConsoleApp.exe
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\obj\Release\AlmsSdkTestConsoleApp.pdb

@@ -37,3 +37,5 @@ C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\
 C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\Newtonsoft.Json.xml
 C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\obj\Debug\AlmsSdkTestConsoleApp.csprojResolveAssemblyReference.cache
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\obj\Debug\AlmsSdkTestConsoleApp.csprojResolveAssemblyReference.cache
+C:\Users\emre.gokce\Documents\GitHub\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Debug\AlmsSdkTestConsoleApp.exe.config

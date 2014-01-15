@@ -9,7 +9,7 @@ namespace AlmsSdk.Functions
 {
     class Utilities
     {
-        protected internal static string GenerateNonce(AuthConfig config, DateTime httpRequestUTCDate)
+        protected internal static string GenerateNonce(AuthConfig config, DateTimeOffset httpRequestUTCDate)
         {
             string content = config.ApiAccessKey + " " + httpRequestUTCDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.RFC1123Pattern);
 

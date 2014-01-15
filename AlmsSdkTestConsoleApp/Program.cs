@@ -1,6 +1,5 @@
 ﻿using AlmsSdk.Domain;
 using AlmsSdk.Services;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -28,17 +27,17 @@ namespace AlmsSdkTestConsoleApp
 
             Console.WriteLine();
             Console.WriteLine("Press any key to continue.");
-            Console.In.Read();
+            //Console.In.Read();
         }
 
         #region sample user operations
-        
-        static void GetUser() 
+
+        static void GetUser()
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
-            User user = uService.Get("sample_user"); // get user data by username
+            User user = uService.Get("User_emre"); // get user data by username
 
             if (uService.LastError != null)
             {
