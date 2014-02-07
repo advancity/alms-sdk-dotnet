@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlmsSdk.Domain;
+using RestSharp;
 
-namespace AlmsSdk.Services
+namespace AlmsSdk.ServiceContracts
 {
     public interface IUserService
     {
@@ -13,7 +14,9 @@ namespace AlmsSdk.Services
         IEnumerable<User> Search(string Keyword);
         bool Create(User User); 
         bool Delete(string Username); 
-        bool Update(User User); 
-        Error LastError { get; }
+        bool Update(User User);
+        AuthConfig config { get; set; }
+        RestClient client { get; set; }
+        Error LastError { get; set; }
     }
 }

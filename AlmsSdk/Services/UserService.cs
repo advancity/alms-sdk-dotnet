@@ -12,23 +12,23 @@ using Newtonsoft.Json;
 
 namespace AlmsSdk.Services
 {
-    class UserService : IUserService
+    using ServiceContracts;
+
+    class UserService : BaseService, IUserService
     {
         #region Constants
 
-        private AuthConfig config = null;
-        private RestClient client = null;
         public DateTimeOffset RequestDate;
-        public Error LastError { get; private set; }
 
         #endregion
 
         #region Ctor
 
         public UserService(AuthConfig authConfig, string baseApiURI)
+            : base(authConfig, baseApiURI)
         {
-            config = authConfig;
-            client = new RestClient(baseApiURI);
+            //config = authConfig;
+            //client = new RestClient(baseApiURI);
         }
 
         #endregion

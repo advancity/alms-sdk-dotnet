@@ -23,5 +23,17 @@ namespace AlmsSdk.Functions
             for (int i = 0; i < hashmessage.Length; i++) sbinary += hashmessage[i].ToString("X2"); // hex format
             return sbinary;
         }
+
+        protected internal static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        protected internal static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
     }
 }

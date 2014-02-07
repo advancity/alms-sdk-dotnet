@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AlmsSdkTestConsoleApp
 {
-    class Program
+    class UserTest
     {
         static void Main(string[] args)
         {
