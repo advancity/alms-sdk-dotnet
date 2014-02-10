@@ -45,5 +45,11 @@ namespace AlmsSdk.Factory
             OrganizationalUnitService programService = new OrganizationalUnitService(AuthConfig, BaseApiURI);
             return programService;
         }
+
+        public IClassService CreateClassService()
+        {
+            ClassService classService = new ClassService(AuthConfig, BaseApiURI);
+            return classService;
+        }
     }
 }

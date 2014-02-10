@@ -14,26 +14,29 @@ namespace AlmsSdkTestConsoleApp
 {
     using AlmsSdk.ServiceContracts;
     using AlmsSdk.Factory;
-    
-    class CourseTest
+
+    class AllTests
     {
         static void Main(string[] args)
         {
             /* The following methods tests SDK methods and writes to the console output.
              * Before running this application, please check app.config to set ALSM API credentials and ALMS base url.
              */
+            EnrollUsers();
+            //CreateClass();
+
             //CreateProgram();
             //GetProgram();
             //SearchProgram();
             //UpdateProgram();
             //DeleteProgram();
-            
+            //
             //CreateMasterCourse();
             //GetMasterCourse();
             //SearchMasterCourses();
             //UpdateMasterCourse();
             //DeleteMasterCourse();
-            
+            //
             //CreateCourse();
             //GetCourse();
             //SearchCourses();
@@ -232,6 +235,30 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
+        static void EnrollUsers()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IUserService uService = factory.CreateUserService();
+
+            Enrollment enrollment = new Enrollment() 
+            {
+                ClassGuid = "0953bf68-617d-4709-8a6a-a1f9cd2dae35",
+                usernames = new[] { "User_98", "User_97" }
+            };
+
+            bool success = uService.Enroll(enrollment);
+
+            if (!success)
+            {
+                Console.WriteLine("ErrorCode: " + uService.LastError.ErrorCode);
+                Console.WriteLine("ErrorMessage: " + uService.LastError.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine("All users enrolled.");
+            }
+        }
+
         #endregion
 
         #region sample course operations
@@ -278,7 +305,8 @@ namespace AlmsSdkTestConsoleApp
             ServiceFactory factory = new ServiceFactory();
             ICourseService cService = factory.CreateCourseService();
 
-            var course = new Course() {
+            var course = new Course()
+            {
                 CourseGuid = Guid.Parse("e728a04a-3d2c-486f-a9bb-5f32ba338fc2"),
                 Name = "Emre Kurs " + DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss")
             };
@@ -321,11 +349,11 @@ namespace AlmsSdkTestConsoleApp
 
             var course = new Course()
             {
-                Name = "Emrenin yeni kursu" + DateTime.Now.Ticks.ToString(),
+                Name = "This is test course",
                 Description = "Description",
                 CourseDefaultView = AlmsSdk.Domain.Enums.CourseViewType.Card,
                 CourseAllowSelfEnrollment = false,
-                Abbreviation = "EYK",
+                Abbreviation = "TTC",
                 MasterCourseGuid = Guid.Parse("948440d4-4803-44ff-a579-ded8d254aab8")
             };
 
@@ -362,7 +390,7 @@ namespace AlmsSdkTestConsoleApp
             masterCourse.ShortDescription = "ShortDescription";
             masterCourse.Categories = new List<string>();
             masterCourse.Audiences = new List<string>();
-            
+
             bool success = mcService.Update(masterCourse);
 
             if (!success)
@@ -421,7 +449,7 @@ namespace AlmsSdkTestConsoleApp
             var masterCourse = new MasterCourse();
             // the following are required fields.
             masterCourse.MasterCourseGuid = Guid.Empty.ToString();
-            masterCourse.Name = "New Sample Master Course";
+            masterCourse.Name = "This is test master course";
             masterCourse.Programs.Add(new OrganizationalUnit { OrganizationalUnitGuid = "9bf976fb-4800-47e0-a696-8456558d37cd" });
 
             // the following are optional fields.
@@ -465,19 +493,19 @@ namespace AlmsSdkTestConsoleApp
 
         #region sample program operations
 
-        static void CreateProgram() 
+        static void CreateProgram()
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
 
             var program = new OrganizationalUnit();
             // the following are required fields.
-            program.Name = "Sample Program Created By API";
-            program.Abbreviation = "SPCBA";
+            program.Name = "This is program created by API";
+            program.Abbreviation = "TPCBA";
             program.IsProgram = true;
 
             // the following are optional fields.
-            
+
             bool success = ouService.Create(program);
 
             if (!success)
@@ -491,7 +519,7 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void GetProgram() 
+        static void GetProgram()
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
@@ -509,7 +537,7 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void SearchProgram() 
+        static void SearchProgram()
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
@@ -527,7 +555,7 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void UpdateProgram() 
+        static void UpdateProgram()
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
@@ -552,7 +580,7 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void DeleteProgram() 
+        static void DeleteProgram()
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
@@ -568,6 +596,38 @@ namespace AlmsSdkTestConsoleApp
             else
             {
                 Console.WriteLine(string.Format("Organizational Unit [{0}] was deleted.", organizationalUnitGuid));
+            }
+        }
+
+        #endregion
+
+        #region sample class operations
+
+        static void CreateClass()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IClassService cService = factory.CreateClassService();
+
+            var _class = new Class();
+            // the following are required fields.
+            _class.Name = "This is test class";
+            _class.CourseGuid = "7259e3a2-cb8a-4cb9-a285-d6967ecb1813";
+            _class.ProgramGuid = "3f9d2b75-d714-408d-83e8-90f3bf93d8e3";
+
+            // the following are optional fields.
+            _class.StartDate = null;
+            _class.EndDate = null;
+
+            bool success = cService.Create(_class);
+
+            if (!success)
+            {
+                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
+                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine(string.Format("User {0} was created.", _class.Name));
             }
         }
 

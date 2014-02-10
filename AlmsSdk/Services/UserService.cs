@@ -37,29 +37,24 @@ namespace AlmsSdk.Services
 
         public User Get(string Username)
         {
-            setClientHeaders();
-
             IRestRequest request = new RestRequest(string.Format("/api/user?username={0}", Username), Method.GET);
             IRestResponse response = client.Get<User>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<User>).Data;
-            else { setError(response); return null; }
+            else { this.setError(response); return null; }
         }
 
         public IEnumerable<User> Search(string Keyword)
         {
-            setClientHeaders();
-
             IRestRequest request = new RestRequest(string.Format("/api/user/search?keyword={0}", Keyword), Method.GET);
             IRestResponse response = client.Get<List<User>>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<List<User>>).Data;
-            else { setError(response); return null; }
+            else { this.setError(response); return null; }
         }
 
         public bool Create(User User)
         {
-            setClientHeaders();
             IRestRequest request = new RestRequest("/api/user", Method.POST);
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(User), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
@@ -67,12 +62,11 @@ namespace AlmsSdk.Services
             IRestResponse response = client.Post<bool>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
-            else { setError(response); return false; }
+            else { this.setError(response); return false; }
         }
 
         public bool Update(User User)
         {
-            setClientHeaders();
             IRestRequest request = new RestRequest("/api/user", Method.PUT);
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(User), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
@@ -81,38 +75,26 @@ namespace AlmsSdk.Services
 
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
-            else { setError(response); return false; }
+            else { this.setError(response); return false; }
         }
 
         public bool Delete(string Username)
         {
-            setClientHeaders();
-
             IRestRequest request = new RestRequest(string.Format("/api/user?username={0}", Username), Method.DELETE);
             IRestResponse response = client.Delete(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
-            else { setError(response); return false; }
+            else { this.setError(response); return false; }
         }
 
-        #endregion
-
-        #region private methods
-
-        private void setClientHeaders()
+        public bool Enroll(Enrollment enrollment)
         {
-            RequestDate = DateTimeOffset.UtcNow;
-            client.AddDefaultHeader("Authorization", string.Format("alms-token apiAccessKey={0}, nonce={1}", config.ApiAccessKey, Utilities.GenerateNonce(config, RequestDate)));
-            client.AddDefaultHeader("Date", RequestDate.ToString());
-        }
+            IRestRequest request = new RestRequest("/api/user/enroll", Method.POST);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(enrollment), ParameterType.RequestBody);
+            IRestResponse response = client.Post<Enrollment>(request);
 
-        private void setError(IRestResponse response)
-        {
-            LastError = new Error()
-            {
-                ErrorCode = response.StatusCode.GetHashCode(),
-                ErrorMessage = response.StatusDescription
-            };
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { this.setError(response); return false; }
         }
 
         #endregion
