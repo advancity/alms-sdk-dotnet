@@ -15,6 +15,8 @@ namespace AlmsSdk.ServiceContracts
         bool Create(Course Course);
         bool Delete(string CourseTrackingGuid);
         bool Update(Course Course);
+        bool AddTeachers(string CourseGuid, List<string> Teachers);
+        bool RemoveTeachers(string CourseGuid, List<string> Teachers);
         AuthConfig config { get; set; }
         RestClient client { get; set; }
         Error LastError { get; set; }

@@ -22,9 +22,13 @@ namespace AlmsSdkTestConsoleApp
             /* The following methods tests SDK methods and writes to the console output.
              * Before running this application, please check app.config to set ALSM API credentials and ALMS base url.
              */
-            EnrollUsers();
+            //EnrollUsers();
             //CreateClass();
-
+            //AddTeacherToClass();
+            //RemoveTeacherToClass();
+            //AddTeacherToCourse();
+            //RemoveTeacherToCourse();
+            //
             //CreateProgram();
             //GetProgram();
             //SearchProgram();
@@ -370,6 +374,58 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
+        static void AddTeacherToCourse()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            ICourseService cService = factory.CreateCourseService();
+
+            string courseGuid = "1bd0d136-14d8-4ece-886e-b2614fbc8953";
+
+            List<string> teacherList = new List<string>() 
+            {
+                "user_10",
+                "user_11"
+            };
+
+            bool success = cService.AddTeachers(courseGuid, teacherList);
+
+            if (!success)
+            {
+                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
+                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine(string.Format("Teachers are added specified class {0}.", courseGuid));
+            }
+        }
+
+        static void RemoveTeacherToCourse()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            ICourseService cService = factory.CreateCourseService();
+
+            string courseGuid = "1bd0d136-14d8-4ece-886e-b2614fbc8953";
+
+            List<string> teacherList = new List<string>() 
+            {
+                "user_10",
+                "user_11"
+            };
+
+            bool success = cService.RemoveTeachers(courseGuid, teacherList);
+
+            if (!success)
+            {
+                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
+                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine(string.Format("Teachers are added specified class {0}.", courseGuid));
+            }
+        }
+
         #endregion
 
         #region sample master course operations
@@ -628,6 +684,58 @@ namespace AlmsSdkTestConsoleApp
             else
             {
                 Console.WriteLine(string.Format("User {0} was created.", _class.Name));
+            }
+        }
+
+        static void AddTeacherToClass()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IClassService cService = factory.CreateClassService();
+
+            string classGuid = "d3a65d5b-2045-47db-a326-ab787a2fe371";
+
+            List<string> teacherList = new List<string>() 
+            {
+                "user_10",
+                "user_11"
+            };
+
+            bool success = cService.AddTeachers(classGuid, teacherList);
+
+            if (!success)
+            {
+                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
+                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine(string.Format("Teachers are added specified class {0}.", classGuid));
+            }
+        }
+
+        static void RemoveTeacherToClass()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IClassService cService = factory.CreateClassService();
+
+            string classGuid = "d3a65d5b-2045-47db-a326-ab787a2fe371";
+
+            List<string> teacherList = new List<string>() 
+            {
+                "user_10",
+                "user_11"
+            };
+
+            bool success = cService.RemoveTeachers(classGuid, teacherList);
+
+            if (!success)
+            {
+                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
+                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+            }
+            else
+            {
+                Console.WriteLine(string.Format("Teachers are added specified class {0}.", classGuid));
             }
         }
 

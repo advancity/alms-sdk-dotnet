@@ -13,6 +13,8 @@ namespace AlmsSdk.ServiceContracts
         //Course Get(string CourseTrackingGuid);
         //IEnumerable<Course> Search(string name, string activeStatus);
         bool Create(Class Class);
+        bool AddTeachers(string ClassGuid, List<string> Teachers);
+        bool RemoveTeachers(string ClassGuid, List<string> Teachers);
         //bool Delete(string CourseTrackingGuid);
         //bool Update(Course Course);
         AuthConfig config { get; set; }

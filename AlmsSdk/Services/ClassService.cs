@@ -58,6 +58,30 @@ namespace AlmsSdk.Services
             else { this.setError(response); return false; }
         }
 
+        public bool AddTeachers(string ClassGuid, List<string> Teachers)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/class/addteachers?classguid={0}", ClassGuid), Method.POST);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Teachers), ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = client.Post<bool>(request);
+
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { this.setError(response); return false; }
+        }
+
+        public bool RemoveTeachers(string ClassGuid, List<string> Teachers)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/class/removeteachers?classguid={0}", ClassGuid), Method.POST);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Teachers), ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = client.Post<bool>(request);
+
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { this.setError(response); return false; }
+        }
+
         //public bool Delete(string CourseTrackingGuid)
         //{
         //    IRestRequest request = new RestRequest(string.Format("/api/course?coursetrackingguid={0}", CourseTrackingGuid), Method.DELETE);
