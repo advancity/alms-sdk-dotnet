@@ -7,15 +7,12 @@ using System.Text;
 
 namespace AlmsSdk.ServiceContracts
 {
-    public interface IOrganizationalUnitService
+    public interface IOrganizationalUnitService : IService
     {
-        bool Create(OrganizationalUnit OrganizationalUnit);
-        OrganizationalUnit Get(string OrganizationalUnitGuid);
-        IEnumerable<OrganizationalUnit> Search(string Keyword, bool IsProgram);
-        bool Update(OrganizationalUnit OrganizationalUnit);
-        bool Delete(string OrganizationalUnitGuid);
-        AuthConfig config { get; set; }
-        RestClient client { get; set; }
-        Error LastError { get; set; }
+        Guid Create(OrganizationalUnit organizationalUnit);
+        OrganizationalUnit Get(Guid organizationalUnitGuid);
+        IEnumerable<OrganizationalUnit> Search(string keyword, bool isProgram = false, bool isActive = true);
+        bool Update(OrganizationalUnit organizationalUnit);
+        bool Delete(Guid organizationalUnitGuid);
     }
 }

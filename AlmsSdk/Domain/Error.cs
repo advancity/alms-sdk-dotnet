@@ -9,8 +9,7 @@ namespace AlmsSdk.Domain
     public class Error
     {
         public int ErrorCode { get; set; }
-        public string ErrorMessage { get; set; }
-        /*public bool IsSuccess { get; set; }*/
-        /*public int ErrorId { get; set; }*/
+        public string ErrorCodeString { get; set; }
+        public string Message { get; set; }
     }
 }

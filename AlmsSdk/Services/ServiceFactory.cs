@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlmsSdk.Factory
+namespace AlmsSdk.Service
 {
     using Services;
     using ServiceContracts;

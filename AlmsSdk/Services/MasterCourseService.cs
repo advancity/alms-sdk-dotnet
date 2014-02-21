@@ -13,7 +13,7 @@ namespace AlmsSdk.Services
 
     class MasterCourseService : BaseService, IMasterCourseService
     {
-        #region Constances
+        #region Constants
 
         public DateTimeOffset RequestDate;
 
@@ -28,54 +28,59 @@ namespace AlmsSdk.Services
 
         #region Methods
 
-        public MasterCourse Get(Guid MasterCourseGuid)
+        public MasterCourse Get(Guid masterCourseGuid)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/mastercourse?mastercourseguid={0}", MasterCourseGuid.ToString()), Method.GET);
-            IRestResponse response = client.Get<MasterCourse>(request);
+            IRestRequest request = new RestRequest(string.Format("/api/mastercourse?masterCourseGuid={0}", masterCourseGuid.ToString()), Method.GET);
+            IRestResponse response = Client.Get<MasterCourse>(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<MasterCourse>).Data;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<MasterCourse>).Data;
             else { this.setError(response); return null; }
         }
 
-        public IEnumerable<MasterCourse> Search(string name, bool isActive)
+        public IEnumerable<MasterCourse> Search(string keyword, bool isActive)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/mastercourse/search?name={0}&activestatus={1}", name, isActive), Method.GET);
-            IRestResponse response = client.Get<List<MasterCourse>>(request);
+            IRestRequest request = new RestRequest(string.Format("/api/mastercourse/search?keyword={0}&isActive={1}", Uri.EscapeUriString(keyword), isActive), Method.GET);
+            IRestResponse response = Client.Get<List<MasterCourse>>(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<List<MasterCourse>>).Data;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<MasterCourse>>).Data;
             else { this.setError(response); return null; }
         }
 
-        public bool Create(MasterCourse MasterCourse)
+        public Guid Create(MasterCourse masterCourse)
         {
             IRestRequest request = new RestRequest("/api/mastercourse", Method.POST);
-            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(MasterCourse), ParameterType.RequestBody);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(masterCourse), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Post<MasterCourse>(request);
+            IRestResponse response = Client.Post<MasterCourse>(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
-            else { this.setError(response); return false; }
+            Guid guid = Guid.Empty;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                Guid.TryParse(Newtonsoft.Json.JsonConvert.DeserializeObject<ApiObjectId>(response.Content).Id, out guid);
+            }
+            else { this.setError(response); }
+            return guid;
         }
 
-        public bool Delete(string MasterCourseId)
+        public bool Delete(Guid masterCourseGuid)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/mastercourse?mastercourseguid={0}", MasterCourseId), Method.DELETE);
-            IRestResponse response = client.Delete(request);
+            IRestRequest request = new RestRequest(string.Format("/api/mastercourse?masterCourseGuid={0}", masterCourseGuid), Method.DELETE);
+            IRestResponse response = Client.Delete(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return true;
             else { this.setError(response); return false; }
         }
 
-        public bool Update(MasterCourse MasterCourse)
+        public bool Update(MasterCourse masterCourse)
         {
             IRestRequest request = new RestRequest("/api/mastercourse", Method.PUT);
-            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(MasterCourse), ParameterType.RequestBody);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(masterCourse), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = Client.Execute(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return true;
             else { this.setError(response); return false; }
         }
 

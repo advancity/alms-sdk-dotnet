@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AlmsSdk.Domain;
+using AlmsSdk.Functions;
+using AlmsSdk.Domain;
+using Newtonsoft.Json;
+using RestSharp;
+using AlmsSdk.ServiceContracts;
+using AlmsSdk.Service;
 
 namespace AlmsSdk.Services
 {
-    using AlmsSdk.Functions;
-    using Domain;
-    using Newtonsoft.Json;
-    using RestSharp;
-    using ServiceContracts;
-    using Factory;
-
     class CourseService : BaseService, ICourseService
     {
         #region Constants
@@ -27,43 +27,47 @@ namespace AlmsSdk.Services
 
         #region Methods
 
-        public Course Get(string CourseTrackingGuid)
+        public Course Get(Guid courseGuid)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/course?coursetrackingguid={0}", CourseTrackingGuid), Method.GET);
-            IRestResponse response = client.Get<Course>(request);
+            IRestRequest request = new RestRequest(string.Format("/api/course?courseGuid={0}", courseGuid), Method.GET);
+            IRestResponse response = Client.Get<Course>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<Course>).Data;
             else { this.setError(response); return null; }
         }
 
-        public IEnumerable<Course> Search(string name, string activeStatus)
+        public IEnumerable<Course> Search(string keyword, bool isActive)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/course/search?name={0}&activestatus={1}",
-                                                                                      name, activeStatus), Method.GET);
-            IRestResponse response = client.Get<List<Course>>(request);
+            IRestRequest request = new RestRequest(string.Format("/api/course/search?keyword={0}&isActive={1}", System.Uri.EscapeUriString(keyword), isActive), Method.GET);
+            IRestResponse response = Client.Get<List<Course>>(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<List<Course>>).Data;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<Course>>).Data;
             else { this.setError(response); return null; }
         }
 
-        public bool Create(Course Course)
+        public Guid Create(Course course)
         {
             IRestRequest request = new RestRequest("/api/course", Method.POST);
-            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Course), ParameterType.RequestBody);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(course), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Post<bool>(request);
+            IRestResponse response = Client.Post(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
-            else { this.setError(response); return false; }
+            Guid guid = Guid.Empty;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                Guid.TryParse(Newtonsoft.Json.JsonConvert.DeserializeObject<ApiObjectId>(response.Content).Id, out guid);
+            }
+            else { this.setError(response); }
+            return guid;
         }
 
-        public bool Delete(string CourseTrackingGuid)
+        public bool Delete(Guid courseGuid)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/course?coursetrackingguid={0}", CourseTrackingGuid), Method.DELETE);
-            IRestResponse response = client.Delete(request);
+            IRestRequest request = new RestRequest(string.Format("/api/course?courseGuid={0}", courseGuid), Method.DELETE);
+            IRestResponse response = Client.Delete(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return true;
             else { this.setError(response); return false; }
         }
 
@@ -73,28 +77,10 @@ namespace AlmsSdk.Services
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Course), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = Client.Execute(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return true;
             else { this.setError(response); return false; }
-        }
-
-        static void CreateCourse(Course course)
-        {
-            ServiceFactory factory = new ServiceFactory();
-            ICourseService cService = factory.CreateCourseService();
-            
-            bool success = cService.Create(course);
-
-            if (!success)
-            {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
-            }
-            else
-            {
-                Console.WriteLine(string.Format("User {0} was created.", course.Name));
-            }
         }
 
         public bool AddTeachers(string CourseGuid, List<string> Teachers)
@@ -103,7 +89,7 @@ namespace AlmsSdk.Services
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Teachers), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Post<bool>(request);
+            IRestResponse response = Client.Post<bool>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
             else { this.setError(response); return false; }
@@ -115,7 +101,7 @@ namespace AlmsSdk.Services
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Teachers), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Post<bool>(request);
+            IRestResponse response = Client.Post<bool>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
             else { this.setError(response); return false; }

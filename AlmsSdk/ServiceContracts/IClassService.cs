@@ -8,17 +8,10 @@ using RestSharp;
 
 namespace AlmsSdk.ServiceContracts
 {
-    public interface IClassService 
+    public interface IClassService : IService
     {
-        //Course Get(string CourseTrackingGuid);
-        //IEnumerable<Course> Search(string name, string activeStatus);
-        bool Create(Class Class);
+        Guid Create(Class Class);
         bool AddTeachers(string ClassGuid, List<string> Teachers);
         bool RemoveTeachers(string ClassGuid, List<string> Teachers);
-        //bool Delete(string CourseTrackingGuid);
-        //bool Update(Course Course);
-        AuthConfig config { get; set; }
-        RestClient client { get; set; }
-        Error LastError { get; set; }
     }
 }

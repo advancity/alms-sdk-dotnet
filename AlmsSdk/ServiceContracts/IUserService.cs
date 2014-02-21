@@ -8,16 +8,13 @@ using RestSharp;
 
 namespace AlmsSdk.ServiceContracts
 {
-    public interface IUserService
+    public interface IUserService : IService
     {
-        User Get(string Username);
-        IEnumerable<User> Search(string Keyword);
-        bool Create(User User); 
-        bool Delete(string Username); 
-        bool Update(User User);
-        bool Enroll(Enrollment enrollment);
-        AuthConfig config { get; set; }
-        RestClient client { get; set; }
-        Error LastError { get; set; }
+        User Get(string username);
+        IEnumerable<User> Search(string keyword, bool isActive = true);
+        bool Create(User user); 
+        bool Delete(string username);
+        bool Update(User user);
+        bool Enroll(Guid classGuid, params string[] usernames);
     }
 }

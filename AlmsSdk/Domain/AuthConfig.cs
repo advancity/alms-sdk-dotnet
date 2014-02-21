@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AlmsSdk.Domain
 {
-    class ServiceErrorMessage
+    public class AuthConfig
     {
-        public string Message { get; set; }
+        public string ApiAccessKey { get; set; }
+        public string ApiSecretKey { get; set; }
     }
 }

@@ -9,11 +9,10 @@ namespace AlmsSdk.Domain
     {
         public OrganizationalUnit()
         {
-            this.OrganizationalUnitGuid = Guid.Empty.ToString();
-            this.ParentGuid = Guid.Empty.ToString();
+            
         }
 
-        public string OrganizationalUnitGuid { get; set; }
+        public Guid OrganizationalUnitGuid { get; set; }
         public string Name { get; set; }
         public bool IsProgram { get; set; }
         public string Url { get; set; }
@@ -22,7 +21,6 @@ namespace AlmsSdk.Domain
         public string HeadTitle { get; set; }
         public string HeadName { get; set; }
         public string ExternalKey { get; set; }
-        public int OrganizationId { get; set; }
-        public string ParentGuid { get; set; }
+        public Guid? ParentGuid { get; set; }
     }
 }

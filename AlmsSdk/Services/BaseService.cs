@@ -9,14 +9,15 @@ namespace AlmsSdk.Services
     using ServiceContracts;
     using RestSharp;
     using AlmsSdk.Functions;
+    using System.Globalization;
 
     internal class BaseService : IService
     {
         #region Constances
 
-        public AuthConfig config { get; set; }
-        public RestClient client { get; set; }
-        public Error LastError { get; set; }
+        protected AuthConfig Config { get; set; }
+        protected RestClient Client { get; set; }
+        public Error LastError { get; protected set; }
         public DateTimeOffset RequestDate;
 
         #endregion
@@ -25,8 +26,8 @@ namespace AlmsSdk.Services
 
         public BaseService(AuthConfig authConfig, string baseApiURI)
         {
-            config = authConfig;
-            client = new RestClient(baseApiURI);
+            Config = authConfig;
+            Client = new RestClient(baseApiURI);
 
             setClientHeaders();
         }
@@ -38,8 +39,8 @@ namespace AlmsSdk.Services
         private void setClientHeaders()
         {
             RequestDate = DateTimeOffset.UtcNow;
-            client.AddDefaultHeader("Authorization", string.Format("alms-token apiAccessKey={0}, nonce={1}", config.ApiAccessKey, Utilities.GenerateNonce(config, RequestDate)));
-            client.AddDefaultHeader("Date", RequestDate.ToString());
+            Client.AddDefaultHeader("Authorization", string.Format("alms-token apiAccessKey={0}, nonce={1}", Config.ApiAccessKey, Utilities.GenerateNonce(Config, RequestDate)));
+            Client.AddDefaultHeader("Date", RequestDate.ToString(CultureInfo.GetCultureInfo("en-US").DateTimeFormat.RFC1123Pattern));
         }
 
         protected void setError(IRestResponse response)
@@ -47,8 +48,14 @@ namespace AlmsSdk.Services
             LastError = new Error()
             {
                 ErrorCode = response.StatusCode.GetHashCode(),
-                ErrorMessage = response.StatusDescription
+                ErrorCodeString= response.StatusDescription
             };
+            try
+            {
+                if(!string.IsNullOrEmpty(response.Content))
+                    LastError.Message = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiErrorMessage>(response.Content).Message;
+            }
+            finally { }
         }
 
         #endregion

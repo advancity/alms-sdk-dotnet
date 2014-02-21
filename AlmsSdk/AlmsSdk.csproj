@@ -54,15 +54,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthConfig.cs" />
+    <Compile Include="Domain\ApiErrorMessage.cs" />
+    <Compile Include="Domain\ApiObjectId.cs" />
+    <Compile Include="Domain\AuthConfig.cs" />
     <Compile Include="Domain\Class.cs" />
     <Compile Include="Domain\Course.cs" />
-    <Compile Include="Domain\Enrollment.cs" />
     <Compile Include="Domain\Enums\CourseViewType.cs" />
     <Compile Include="Domain\Error.cs" />
     <Compile Include="Domain\MasterCourse.cs" />
     <Compile Include="Domain\OrganizationalUnit.cs" />
-    <Compile Include="Domain\ServiceErrorMessage.cs" />
     <Compile Include="Domain\UserType.cs" />
     <Compile Include="Functions\Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Services\MasterCourseService.cs" />
     <Compile Include="Services\OrganizationalUnitService.cs" />
     <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Factory\ServiceFactory.cs" />
+    <Compile Include="Services\ServiceFactory.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Domain\User.cs" />
   </ItemGroup>

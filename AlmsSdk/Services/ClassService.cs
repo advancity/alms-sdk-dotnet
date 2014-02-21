@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AlmsSdk.Functions;
+using AlmsSdk.Domain;
+using Newtonsoft.Json;
+using RestSharp;
+using AlmsSdk.ServiceContracts;
 
 namespace AlmsSdk.Services
 {
-    using AlmsSdk.Functions;
-    using Domain;
-    using Newtonsoft.Json;
-    using RestSharp;
-    using ServiceContracts;
-    using Factory;
-
     class ClassService : BaseService, IClassService
     {
         #region Constants
@@ -46,16 +44,21 @@ namespace AlmsSdk.Services
         //    else { this.setError(response); return null; }
         //}
 
-        public bool Create(Class Class)
+        public Guid Create(Class Class)
         {
             IRestRequest request = new RestRequest("/api/class", Method.POST);
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Class), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Post<bool>(request);
-                  
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
-            else { this.setError(response); return false; }
+            IRestResponse response = Client.Post(request);
+
+            Guid guid = Guid.Empty;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                Guid.TryParse(Newtonsoft.Json.JsonConvert.DeserializeObject<ApiObjectId>(response.Content).Id, out guid);
+            }
+            else { this.setError(response); }
+            return guid;
         }
 
         public bool AddTeachers(string ClassGuid, List<string> Teachers)
@@ -64,7 +67,7 @@ namespace AlmsSdk.Services
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Teachers), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Post<bool>(request);
+            IRestResponse response = Client.Post<bool>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
             else { this.setError(response); return false; }
@@ -76,7 +79,7 @@ namespace AlmsSdk.Services
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Teachers), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Post<bool>(request);
+            IRestResponse response = Client.Post<bool>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
             else { this.setError(response); return false; }

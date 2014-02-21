@@ -10,13 +10,10 @@ namespace AlmsSdk.ServiceContracts
 
     public interface IMasterCourseService : IService
     {
-        MasterCourse Get(Guid MasterCourseGuid);
-        IEnumerable<MasterCourse> Search(string name, bool isActive);
-        bool Create(MasterCourse MasterCourse);
-        bool Delete(string MasterCourseId);
-        bool Update(MasterCourse MasterCourse);
-        AuthConfig config { get; set; }
-        RestClient client { get; set; }
-        Error LastError { get; set; }
+        MasterCourse Get(Guid masterCourseGuid);
+        IEnumerable<MasterCourse> Search(string keyword, bool isActive);
+        Guid Create(MasterCourse masterCourse);
+        bool Delete(Guid masterCourseGuid);
+        bool Update(MasterCourse masterCourse);
     }
 }

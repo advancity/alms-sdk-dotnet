@@ -27,8 +27,6 @@ namespace AlmsSdk.Services
         public UserService(AuthConfig authConfig, string baseApiURI)
             : base(authConfig, baseApiURI)
         {
-            //config = authConfig;
-            //client = new RestClient(baseApiURI);
         }
 
         #endregion
@@ -38,18 +36,18 @@ namespace AlmsSdk.Services
         public User Get(string Username)
         {
             IRestRequest request = new RestRequest(string.Format("/api/user?username={0}", Username), Method.GET);
-            IRestResponse response = client.Get<User>(request);
+            IRestResponse response = Client.Get<User>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<User>).Data;
             else { this.setError(response); return null; }
         }
 
-        public IEnumerable<User> Search(string Keyword)
+        public IEnumerable<User> Search(string keyword, bool isActive = true)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/user/search?keyword={0}", Keyword), Method.GET);
-            IRestResponse response = client.Get<List<User>>(request);
+            IRestRequest request = new RestRequest(string.Format("/api/user/search?keyword={0}&isActive={1}", Uri.EscapeUriString(keyword), isActive), Method.GET);
+            IRestResponse response = Client.Get<List<User>>(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<List<User>>).Data;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<User>>).Data;
             else { this.setError(response); return null; }
         }
 
@@ -59,10 +57,14 @@ namespace AlmsSdk.Services
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(User), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Post<bool>(request);
-
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
-            else { this.setError(response); return false; }
+            IRestResponse response = Client.Post<bool>(request);
+            bool success = false;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                success = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiObjectId>(response.Content).Id == User.UserName;
+            }
+            else { this.setError(response); }
+            return success;
         }
 
         public bool Update(User User)
@@ -71,29 +73,47 @@ namespace AlmsSdk.Services
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(User), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = Client.Execute(request);
 
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return true;
             else { this.setError(response); return false; }
         }
 
-        public bool Delete(string Username)
+        public bool Delete(string username)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/user?username={0}", Username), Method.DELETE);
-            IRestResponse response = client.Delete(request);
+            IRestRequest request = new RestRequest(string.Format("/api/user?username={0}", username), Method.DELETE);
+            IRestResponse response = Client.Delete(request);
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return true;
             else { this.setError(response); return false; }
         }
 
-        public bool Enroll(Enrollment enrollment)
+        public bool Enroll(Guid classGuid, params string[] usernames)
         {
-            IRestRequest request = new RestRequest("/api/user/enroll", Method.POST);
-            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(enrollment), ParameterType.RequestBody);
-            IRestResponse response = client.Post<Enrollment>(request);
+            IRestRequest request = new RestRequest("/api/user/enroll?classGuid=" + classGuid.ToString(), Method.POST);
+            string postData = JsonConvert.SerializeObject(usernames);
+            request.AddParameter("application/json; charset=utf-8", postData, ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
 
-            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            IRestResponse response = Client.Post(request);
+
+            // TODO: number of enrollments can be returned...
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return true;
+            else { this.setError(response); return false; }
+        }
+
+        public bool Enroll(Guid programGuid, string className, params string[] usernames)
+        {
+            IRestRequest request = new RestRequest("/api/user/enroll?className=" + Uri.EscapeUriString(className) + "&programGuid=" + programGuid.ToString(), Method.POST);
+            string postData = JsonConvert.SerializeObject(usernames);
+            request.AddParameter("application/json; charset=utf-8", postData, ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = Client.Post(request);
+
+            // TODO: number of enrollments can be returned...
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return true;
             else { this.setError(response); return false; }
         }
 

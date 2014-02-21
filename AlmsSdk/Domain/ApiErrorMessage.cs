@@ -5,9 +5,8 @@ using System.Text;
 
 namespace AlmsSdk.Domain
 {
-    public class Enrollment
+    class ApiErrorMessage
     {
-        public string ClassGuid { get; set; }
-        public string[] usernames { get; set; }
+        public string Message { get; set; }
     }
 }

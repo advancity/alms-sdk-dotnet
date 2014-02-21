@@ -9,12 +9,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using AlmsSdk.ServiceContracts;
+using AlmsSdk.Service;
 
 namespace AlmsSdkTestConsoleApp
 {
-    using AlmsSdk.ServiceContracts;
-    using AlmsSdk.Factory;
-
     class AllTests
     {
         static void Main(string[] args)
@@ -22,36 +21,55 @@ namespace AlmsSdkTestConsoleApp
             /* The following methods tests SDK methods and writes to the console output.
              * Before running this application, please check app.config to set ALSM API credentials and ALMS base url.
              */
-            //EnrollUsers();
-            //CreateClass();
-            //AddTeacherToClass();
-            //RemoveTeacherToClass();
-            //AddTeacherToCourse();
-            //RemoveTeacherToCourse();
-            //
-            //CreateProgram();
-            //GetProgram();
-            //SearchProgram();
-            //UpdateProgram();
-            //DeleteProgram();
-            //
-            //CreateMasterCourse();
-            //GetMasterCourse();
-            //SearchMasterCourses();
-            //UpdateMasterCourse();
-            //DeleteMasterCourse();
-            //
-            //CreateCourse();
-            //GetCourse();
-            //SearchCourses();
-            //UpdateCourse();
-            //DeleteCourse();
 
-            //CreateUser();
-            //GetUser();
-            //SearchUsers();
-            //UpdateUser();
-            //DeleteUser();
+            Guid masterCourseGuid = Guid.Empty, courseGuid = Guid.Empty, classGuid = Guid.Empty;
+
+            string username = "sample_user_" + Guid.NewGuid().ToString();
+            CreateUser(username);
+            GetUser(username);
+            SearchUsers(username);
+            UpdateUser(username);
+
+            Guid programGuid = CreateProgram();
+            if (programGuid != Guid.Empty)
+            {
+                GetProgram(programGuid);
+                SearchProgram("created by API");
+                UpdateProgram(programGuid);
+
+                masterCourseGuid = CreateMasterCourse(programGuid);
+                if (masterCourseGuid != Guid.Empty)
+                {
+                    GetMasterCourse(masterCourseGuid);
+                    SearchMasterCourses("Test Master Course");
+                    UpdateMasterCourse(masterCourseGuid);
+
+
+                    courseGuid = CreateCourse(masterCourseGuid);
+                    if (courseGuid != Guid.Empty)
+                    {
+                        GetCourse(courseGuid);
+                        SearchCourses("test course");
+                        UpdateCourse(courseGuid);
+
+                        classGuid = CreateClass(courseGuid, programGuid);
+                        if (classGuid != Guid.Empty)
+                        {
+                            EnrollUsers(classGuid, username);
+                        }
+
+                    }
+                }
+            }
+
+
+
+            DeleteUser(username);
+            if (courseGuid != Guid.Empty) DeleteCourse(courseGuid);
+            if (masterCourseGuid != Guid.Empty) DeleteMasterCourse(masterCourseGuid);
+            if (programGuid != Guid.Empty) DeleteProgram(programGuid);
+
+
 
             Console.ReadLine();
             //Console.In.Read();
@@ -59,14 +77,14 @@ namespace AlmsSdkTestConsoleApp
 
         #region sample user operations
 
-        static void CreateUser()
+        static void CreateUser(string username)
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
             var user = new User();
             // the following are required fields.
-            user.UserName = "sample_user";
+            user.UserName = username;
             user.Password = "MyPassword!";
             user.FirstName = "Sample";
             user.LastName = "UCser";
@@ -112,8 +130,7 @@ namespace AlmsSdkTestConsoleApp
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + uService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + uService.LastError.ErrorMessage);
+                printError(uService.LastError);
             }
             else
             {
@@ -121,17 +138,16 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void GetUser()
+        static void GetUser(string username)
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
-            User user = uService.Get("User_emre"); // get user data by username
+            User user = uService.Get(username);
 
             if (uService.LastError != null)
             {
-                Console.WriteLine("ErrorCode: " + uService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + uService.LastError.ErrorMessage);
+                printError(uService.LastError);
             }
             else
             {
@@ -140,17 +156,16 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void SearchUsers()
+        static void SearchUsers(string keyword)
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
-            IEnumerable<User> users = uService.Search("User_"); // get users who contain User_ in their names, surnames, email addresses or usernames.
+            IEnumerable<User> users = uService.Search(keyword); // get users who contain User_ in their names, surnames, email addresses or usernames.
 
             if (uService.LastError != null)
             {
-                Console.WriteLine("ErrorCode: " + uService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + uService.LastError.ErrorMessage);
+                printError(uService.LastError);
             }
             else
             {
@@ -158,14 +173,14 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void UpdateUser()
+        static void UpdateUser(string username)
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
             var user = new User();
             // the following are required fields.
-            user.UserName = "sample_user";
+            user.UserName = username;
             user.Password = "MyPassword!";
             user.FirstName = "Sample";
             user.LastName = "User";
@@ -212,8 +227,7 @@ namespace AlmsSdkTestConsoleApp
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + uService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + uService.LastError.ErrorMessage);
+                printError(uService.LastError);
             }
             else
             {
@@ -221,17 +235,15 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void DeleteUser()
+        static void DeleteUser(string username)
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
-            string username = "sample_user";
             bool success = uService.Delete(username);
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + uService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + uService.LastError.ErrorMessage);
+                printError(uService.LastError);
             }
             else
             {
@@ -239,23 +251,16 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void EnrollUsers()
+        static void EnrollUsers(Guid classGuid, params string[] usernames)
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
-            Enrollment enrollment = new Enrollment() 
-            {
-                ClassGuid = "0953bf68-617d-4709-8a6a-a1f9cd2dae35",
-                usernames = new[] { "User_98", "User_97" }
-            };
-
-            bool success = uService.Enroll(enrollment);
+            bool success = uService.Enroll(classGuid, usernames);
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + uService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + uService.LastError.ErrorMessage);
+                printError(uService.LastError);
             }
             else
             {
@@ -267,17 +272,16 @@ namespace AlmsSdkTestConsoleApp
 
         #region sample course operations
 
-        static void GetCourse()
+        static void GetCourse(Guid courseGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             ICourseService cService = factory.CreateCourseService();
 
-            Course course = cService.Get("e728a04a-3d2c-486f-a9bb-5f32ba338fc2"); // get user data by username
+            Course course = cService.Get(courseGuid);
 
             if (cService.LastError != null)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
@@ -286,92 +290,87 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void SearchCourses()
+        static void SearchCourses(string keyword)
         {
             ServiceFactory factory = new ServiceFactory();
             ICourseService cService = factory.CreateCourseService();
 
-            IEnumerable<Course> courses = cService.Search("Emre", "active"); // get users who contain User_ in their names, surnames, email addresses or usernames.
+            IEnumerable<Course> courses = cService.Search(keyword, true);
 
             if (cService.LastError != null)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
-                Console.WriteLine(string.Format("Found {0} users.", courses.Count()));
+                Console.WriteLine(string.Format("Found {0} courses.", courses.Count()));
             }
         }
 
-        static void UpdateCourse()
+        static void UpdateCourse(Guid courseGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             ICourseService cService = factory.CreateCourseService();
 
             var course = new Course()
             {
-                CourseGuid = Guid.Parse("e728a04a-3d2c-486f-a9bb-5f32ba338fc2"),
-                Name = "Emre Kurs " + DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss")
+                CourseGuid = courseGuid,
+                Name = "Test Course Modified " + DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss")
             };
 
             bool success = cService.Update(course);
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
-                Console.WriteLine(string.Format("Course {0} was updated.", course.Name));
+                Console.WriteLine(string.Format("Name of course {0} was updated to {1}.", courseGuid, course.Name));
             }
         }
 
-        static void DeleteCourse()
+        static void DeleteCourse(Guid courseGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             ICourseService cService = factory.CreateCourseService();
-            string CourseTrackingGuid = "e728a04a-3d2c-486f-a9bb-5f32ba338fc2";
-            bool success = cService.Delete(CourseTrackingGuid);
-
+            bool success = cService.Delete(courseGuid);
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
-                Console.WriteLine(string.Format("Course {0} was deleted.", CourseTrackingGuid));
+                Console.WriteLine(string.Format("Course {0} was deleted.", courseGuid));
             }
         }
 
-        static void CreateCourse()
+        static Guid CreateCourse(Guid masterCourseGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             ICourseService cService = factory.CreateCourseService();
 
             var course = new Course()
             {
-                Name = "This is test course",
-                Description = "Description",
+                Name = "Test Course",
+                Description = "Test course description",
                 CourseDefaultView = AlmsSdk.Domain.Enums.CourseViewType.Card,
                 CourseAllowSelfEnrollment = false,
                 Abbreviation = "TTC",
-                MasterCourseGuid = Guid.Parse("948440d4-4803-44ff-a579-ded8d254aab8")
+                MasterCourseGuid = masterCourseGuid
             };
 
-            bool success = cService.Create(course);
+            Guid courseGuid = cService.Create(course);
 
-            if (!success)
+            if (courseGuid == Guid.Empty)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
-                Console.WriteLine(string.Format("Course {0} was deleted.", course.CourseGuid));
+                Console.WriteLine(string.Format("Course {0} was created.", courseGuid));
             }
+            return courseGuid;
         }
 
         static void AddTeacherToCourse()
@@ -391,8 +390,7 @@ namespace AlmsSdkTestConsoleApp
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
@@ -417,8 +415,7 @@ namespace AlmsSdkTestConsoleApp
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
@@ -430,16 +427,16 @@ namespace AlmsSdkTestConsoleApp
 
         #region sample master course operations
 
-        static void UpdateMasterCourse()
+        static void UpdateMasterCourse(Guid masterCourseGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             IMasterCourseService mcService = factory.CreateMasterCourseService();
 
             var masterCourse = new MasterCourse();
             // the following are required fields.
-            masterCourse.MasterCourseGuid = "0af26721-bfdf-44c6-a832-25fd827b219f";
-            masterCourse.Name = "Hasan New Master Course";
-            masterCourse.Programs = null;//Programlarda değişiklik istenmiyorsa bu değer null geçilmeli.
+            masterCourse.MasterCourseGuid = masterCourseGuid;
+            masterCourse.Name = "Test Master Course - Modified";
+            masterCourse.Programs = null; //Programlarda değişiklik istenmiyorsa bu değer null geçilmeli.
 
             // the following are optional fields.
             masterCourse.Description = "Description";
@@ -451,26 +448,24 @@ namespace AlmsSdkTestConsoleApp
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + mcService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + mcService.LastError.ErrorMessage);
+                printError(mcService.LastError);
             }
             else
             {
-                Console.WriteLine(string.Format("User {0} was created.", masterCourse.Name));
+                Console.WriteLine(string.Format("Name of master course {0} was updated to {1}.", masterCourse.MasterCourseGuid, masterCourse.Name));
             }
         }
 
-        static void GetMasterCourse()
+        static void GetMasterCourse(Guid masterCourseGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             IMasterCourseService mcService = factory.CreateMasterCourseService();
 
-            MasterCourse masterCourse = mcService.Get(Guid.Parse("948440d4-4803-44ff-a579-ded8d254aab8")); // get master course data by masterCourseGuid
+            MasterCourse masterCourse = mcService.Get(masterCourseGuid); // get master course data by masterCourseGuid
 
             if (mcService.LastError != null)
             {
-                Console.WriteLine("ErrorCode: " + mcService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + mcService.LastError.ErrorMessage);
+                printError(mcService.LastError);
             }
             else
             {
@@ -479,69 +474,66 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void SearchMasterCourses()
+        static void SearchMasterCourses(string keyword)
         {
             ServiceFactory factory = new ServiceFactory();
             IMasterCourseService mcService = factory.CreateMasterCourseService();
 
-            IEnumerable<MasterCourse> masterCourses = mcService.Search("sample", true); // get master course data by masterCourseGuid
+            IEnumerable<MasterCourse> masterCourses = mcService.Search(keyword, true); // get master course data by masterCourseGuid
 
             if (mcService.LastError != null)
             {
-                Console.WriteLine("ErrorCode: " + mcService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + mcService.LastError.ErrorMessage);
+                printError(mcService.LastError);
             }
             else
             {
-                Console.WriteLine(string.Format("Master courses count is {0}.", masterCourses.Count()));
+                Console.WriteLine(string.Format("Master course count is {0}.", masterCourses.Count()));
             }
         }
 
-        static void CreateMasterCourse()
+        static Guid CreateMasterCourse(Guid organizationalUnitGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             IMasterCourseService mcService = factory.CreateMasterCourseService();
 
             var masterCourse = new MasterCourse();
             // the following are required fields.
-            masterCourse.MasterCourseGuid = Guid.Empty.ToString();
-            masterCourse.Name = "This is test master course";
-            masterCourse.Programs.Add(new OrganizationalUnit { OrganizationalUnitGuid = "9bf976fb-4800-47e0-a696-8456558d37cd" });
+            masterCourse.MasterCourseGuid = Guid.Empty;
+            masterCourse.Name = "Test Master Course";
+            masterCourse.Programs.Add(organizationalUnitGuid);
 
             // the following are optional fields.
-            masterCourse.Description = "description";
+            masterCourse.Description = "master course description";
             masterCourse.ShortDescription = "ShortDescription";
             masterCourse.Categories = new List<string>();
             masterCourse.Audiences = new List<string>();
 
-            bool success = mcService.Create(masterCourse);
+            var masterCourseGuid = mcService.Create(masterCourse);
 
-            if (!success)
+            if (masterCourseGuid == Guid.Empty)
             {
-                Console.WriteLine("ErrorCode: " + mcService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + mcService.LastError.ErrorMessage);
+                printError(mcService.LastError);
             }
             else
             {
                 Console.WriteLine(string.Format("Master course {0} was created.", masterCourse.Name));
             }
+            return masterCourseGuid;
         }
 
-        static void DeleteMasterCourse()
+        static void DeleteMasterCourse(Guid masterCourseGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             IMasterCourseService mcService = factory.CreateMasterCourseService();
-            string masterCourseGuid = "948440d4-4803-44ff-a579-ded8d254aab8";
             bool success = mcService.Delete(masterCourseGuid);
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + mcService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + mcService.LastError.ErrorMessage);
+                printError(mcService.LastError);
             }
             else
             {
-                Console.WriteLine(string.Format("Master Course {0} was deleted.", masterCourseGuid));
+                Console.WriteLine(string.Format("Master course {0} was deleted.", masterCourseGuid));
             }
         }
 
@@ -549,76 +541,78 @@ namespace AlmsSdkTestConsoleApp
 
         #region sample program operations
 
-        static void CreateProgram()
+        static Guid CreateProgram()
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
 
             var program = new OrganizationalUnit();
             // the following are required fields.
-            program.Name = "This is program created by API";
+            program.Name = "A sample program created by API";
             program.Abbreviation = "TPCBA";
             program.IsProgram = true;
 
             // the following are optional fields.
-
-            bool success = ouService.Create(program);
+            Guid guid = ouService.Create(program);
+            bool success = guid != Guid.Empty;
 
             if (!success)
             {
                 Console.WriteLine("ErrorCode: " + ouService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorMessage);
+                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorCodeString);
+                return Guid.Empty;
             }
             else
             {
-                Console.WriteLine(string.Format("User {0} was created.", program.Name));
+                Console.WriteLine(string.Format("Program {0} was created.", program.Name));
+                return guid;
             }
         }
 
-        static void GetProgram()
+        static void GetProgram(Guid organizationalUnitGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
 
-            OrganizationalUnit organizationalUnitList = ouService.Get("AEA29A06-63E8-4685-BBE2-D9AFCF161BE0");
+            OrganizationalUnit organizationalUnit = ouService.Get(organizationalUnitGuid);
 
             if (ouService.LastError != null)
             {
                 Console.WriteLine("ErrorCode: " + ouService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorMessage);
+                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorCodeString);
             }
             else
             {
-                Console.WriteLine(string.Format("Name of organizational unit is {0}.", organizationalUnitList.Name));
+                Console.WriteLine(string.Format("Name of organizational unit is {0}.", organizationalUnit.Name));
             }
         }
 
-        static void SearchProgram()
+        static void SearchProgram(string keyword)
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
 
-            IEnumerable<OrganizationalUnit> organizationalUnitList = ouService.Search("pr", true); // get users who contain User_ in their names, surnames, email addresses or usernames.
+            IEnumerable<OrganizationalUnit> organizationalUnitList = ouService.Search(keyword, true);
 
             if (ouService.LastError != null)
             {
                 Console.WriteLine("ErrorCode: " + ouService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorMessage);
+                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorCodeString);
             }
             else
             {
-                Console.WriteLine(string.Format("Found {0} users.", organizationalUnitList.Count()));
+                Console.WriteLine(string.Format("Found {0} programs.", organizationalUnitList.Count()));
             }
         }
 
-        static void UpdateProgram()
+        static void UpdateProgram(Guid organizationalUnitGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
 
             var oUnit = new OrganizationalUnit();
             // the following are required fields.
-            oUnit.OrganizationalUnitGuid = "AEA29A06-63E8-4685-BBE2-D9AFCF161BE0";
+            oUnit.OrganizationalUnitGuid = new Guid(organizationalUnitGuid.ToString());
             oUnit.Name = "Updated Organization Unit";
 
             // the following are optional.
@@ -628,7 +622,7 @@ namespace AlmsSdkTestConsoleApp
             if (!success)
             {
                 Console.WriteLine("ErrorCode: " + ouService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorMessage);
+                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorCodeString);
             }
             else
             {
@@ -636,18 +630,17 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void DeleteProgram()
+        static void DeleteProgram(Guid organizationalUnitGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
 
-            string organizationalUnitGuid = "AEA29A06-63E8-4685-BBE2-D9AFCF161BE0";
             bool success = ouService.Delete(organizationalUnitGuid);
 
             if (!success)
             {
                 Console.WriteLine("ErrorCode: " + ouService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorMessage);
+                Console.WriteLine("ErrorMessage: " + ouService.LastError.ErrorCodeString);
             }
             else
             {
@@ -659,7 +652,7 @@ namespace AlmsSdkTestConsoleApp
 
         #region sample class operations
 
-        static void CreateClass()
+        static Guid CreateClass(Guid courseGuid, Guid programGuid)
         {
             ServiceFactory factory = new ServiceFactory();
             IClassService cService = factory.CreateClassService();
@@ -667,24 +660,24 @@ namespace AlmsSdkTestConsoleApp
             var _class = new Class();
             // the following are required fields.
             _class.Name = "This is test class";
-            _class.CourseGuid = "7259e3a2-cb8a-4cb9-a285-d6967ecb1813";
-            _class.ProgramGuid = "3f9d2b75-d714-408d-83e8-90f3bf93d8e3";
+            _class.CourseGuid = courseGuid;
+            _class.ProgramGuid = programGuid;
 
             // the following are optional fields.
             _class.StartDate = null;
             _class.EndDate = null;
 
-            bool success = cService.Create(_class);
+            Guid classGuid = cService.Create(_class);
 
-            if (!success)
+            if (classGuid == Guid.Empty)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
-                Console.WriteLine(string.Format("User {0} was created.", _class.Name));
+                Console.WriteLine(string.Format("Class {0} was created.", _class.Name));
             }
+            return classGuid;
         }
 
         static void AddTeacherToClass()
@@ -704,8 +697,7 @@ namespace AlmsSdkTestConsoleApp
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
@@ -713,7 +705,7 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void RemoveTeacherToClass()
+        static void RemoveTeacherFromClass()
         {
             ServiceFactory factory = new ServiceFactory();
             IClassService cService = factory.CreateClassService();
@@ -730,8 +722,7 @@ namespace AlmsSdkTestConsoleApp
 
             if (!success)
             {
-                Console.WriteLine("ErrorCode: " + cService.LastError.ErrorCode);
-                Console.WriteLine("ErrorMessage: " + cService.LastError.ErrorMessage);
+                printError(cService.LastError);
             }
             else
             {
@@ -740,5 +731,14 @@ namespace AlmsSdkTestConsoleApp
         }
 
         #endregion
+
+        private static void printError(Error error)
+        {
+            if (error == null) return;
+            Console.WriteLine("ErrorCode: " + error.ErrorCode);
+            Console.WriteLine("ErrorCodeString: " + error.ErrorCodeString);
+            Console.WriteLine("Message: " + error.Message);
+        }
+
     }
 }
