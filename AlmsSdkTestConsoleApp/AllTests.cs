@@ -24,7 +24,7 @@ namespace AlmsSdkTestConsoleApp
 
             Guid masterCourseGuid = Guid.Empty, courseGuid = Guid.Empty, classGuid = Guid.Empty;
 
-            string username = "sample_user_" + Guid.NewGuid().ToString();
+            string username = "sample_user_" + DateTime.Now.Ticks.ToString();
             CreateUser(username);
             GetUser(username);
             SearchUsers(username);
