@@ -28,6 +28,7 @@ namespace AlmsSdk.Domain
         public string CitizenshipIdentifier { get; set; }
         public int Types { get; set; }
         public string Title { get; set; }
+        public string ProgramGuids { get; set; } //seperated with comma(,)
         public string CustomProperty1 { get; set; }
         public string CustomProperty2 { get; set; }
         public string CustomProperty3 { get; set; }

@@ -16,6 +16,7 @@ namespace AlmsSdkTestConsoleApp
 {
     class AllTests
     {
+        static Guid programGuid;
         static void Main(string[] args)
         {
             /* The following methods tests SDK methods and writes to the console output.
@@ -25,12 +26,13 @@ namespace AlmsSdkTestConsoleApp
             Guid masterCourseGuid = Guid.Empty, courseGuid = Guid.Empty, classGuid = Guid.Empty;
 
             string username = "sample_user_" + DateTime.Now.Ticks.ToString();
+            programGuid = CreateProgram();
+            
             CreateUser(username);
             GetUser(username);
             SearchUsers(username);
             UpdateUser(username);
 
-            Guid programGuid = CreateProgram();
             if (programGuid != Guid.Empty)
             {
                 GetProgram(programGuid);
@@ -105,6 +107,7 @@ namespace AlmsSdkTestConsoleApp
             user.CitizenshipIdentifier = "2433452456";
             user.Title = "Dr.";
             user.BirthDate = DateTime.Now.AddYears(-35);
+            user.ProgramGuids = programGuid.ToString();
 
             user.CustomProperty1 = "Custom prop 1";
             user.CustomProperty2 = "Custom prop 2";
@@ -173,7 +176,7 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void UpdateUser(string username)
+        static void UpdateUser(string username, string programGuid = "")
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
@@ -201,6 +204,7 @@ namespace AlmsSdkTestConsoleApp
             user.CitizenshipIdentifier = "2433452456";
             user.Title = "Dr.";
             user.BirthDate = DateTime.Now.AddYears(-35);
+            user.ProgramGuids = "";
 
             user.CustomProperty1 = "Custom prop 1";
             user.CustomProperty2 = "Custom prop 2";
