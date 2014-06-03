@@ -117,6 +117,19 @@ namespace AlmsSdk.Services
             else { this.setError(response); return false; }
         }
 
+        public string GetLoginToken(string username)
+        {
+            IRestRequest request = new RestRequest("/api/user/getlogintoken", Method.POST);
+            string postData = JsonConvert.SerializeObject(username);
+            request.AddParameter("application/json; charset=utf-8", postData, ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = Client.Post(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonConvert.DeserializeObject<string>(response.Content);
+            else { this.setError(response); return null; }
+        }
+
         #endregion
     }
 }
