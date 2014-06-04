@@ -17,5 +17,6 @@ namespace AlmsSdk.ServiceContracts
         bool Update(User user);
         bool Enroll(Guid classGuid, params string[] usernames);
         string GetLoginToken(string username);
+        bool ExpireLoginToken(string username);
     }
 }

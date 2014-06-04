@@ -23,7 +23,9 @@ namespace AlmsSdkTestConsoleApp
              * Before running this application, please check app.config to set ALSM API credentials and ALMS base url.
              */
 
-            GetLoginToken();
+            string loginToken = GetLoginToken();
+            bool success = ExpireLoginToken();
+
 
             Guid masterCourseGuid = Guid.Empty, courseGuid = Guid.Empty, classGuid = Guid.Empty;
 
@@ -76,19 +78,28 @@ namespace AlmsSdkTestConsoleApp
 
 
             Console.ReadLine();
-            //Console.In.Read();
         }
 
         #region sample user operations
 
-        static void GetLoginToken() 
+        static string GetLoginToken() 
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
-            var username = "system_admin";
+            var username = "api_test_user";
 
-            string loginToken = uService.GetLoginToken(username);
+            return uService.GetLoginToken(username);
+        }
+
+        static bool ExpireLoginToken()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IUserService uService = factory.CreateUserService();
+
+            var username = "api_test_user";
+
+            return uService.ExpireLoginToken(username);
         }
 
         static void CreateUser(string username)

@@ -131,5 +131,19 @@ namespace AlmsSdk.Services
         }
 
         #endregion
+
+
+        public bool ExpireLoginToken(string username)
+        {
+            IRestRequest request = new RestRequest("/api/user/expirelogintoken", Method.POST);
+            string postData = JsonConvert.SerializeObject(username);
+            request.AddParameter("application/json; charset=utf-8", postData, ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = Client.Post(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return true;
+            else { this.setError(response); return false; }
+        }
     }
 }
