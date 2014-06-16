@@ -53,7 +53,7 @@ namespace AlmsSdk.Services
 
         public bool Create(User User)
         {
-            IRestRequest request = new RestRequest("/api/user", Method.POST);
+            IRestRequest request = new RestRequest("/api/user/create", Method.POST);
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(User), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
