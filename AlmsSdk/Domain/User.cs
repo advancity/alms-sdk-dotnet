@@ -29,6 +29,7 @@ namespace AlmsSdk.Domain
         public int Types { get; set; }
         public string Title { get; set; }
         public string ProgramGuids { get; set; } //seperated with comma(,)
+        public bool IsActive { get; set; }
         public string CustomProperty1 { get; set; }
         public string CustomProperty2 { get; set; }
         public string CustomProperty3 { get; set; }
