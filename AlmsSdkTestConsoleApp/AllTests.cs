@@ -113,7 +113,7 @@ namespace AlmsSdkTestConsoleApp
             user.Password = "MyPassword!";
             user.FirstName = "Sample";
             user.LastName = "UCser";
-            user.Email = "sample_user@alms.com.tr";
+            user.Email = "sample_user@alms.com.tr";//e-mail must be unique
             user.Types = UserType.User.GetHashCode();
 
             // the following are optional fields.
@@ -210,7 +210,7 @@ namespace AlmsSdkTestConsoleApp
             user.Password = "MyPassword!";
             user.FirstName = "Sample";
             user.LastName = "User";
-            user.Email = "sample_user@alms.com.tr";
+            user.Email = "sample_user@alms.com.tr";//e-mail must be unique
             user.Types = UserType.User.GetHashCode();
 
             // the following are optional.
