@@ -68,14 +68,13 @@ namespace AlmsSdkTestConsoleApp
                 }
             }
 
-
+            AddUsersToGroup();
+            DeleteUsersInGroup();
 
             DeleteUser(username);
             if (courseGuid != Guid.Empty) DeleteCourse(courseGuid);
             if (masterCourseGuid != Guid.Empty) DeleteMasterCourse(masterCourseGuid);
             if (programGuid != Guid.Empty) DeleteProgram(programGuid);
-
-
 
             Console.ReadLine();
         }
@@ -754,6 +753,42 @@ namespace AlmsSdkTestConsoleApp
             else
             {
                 Console.WriteLine(string.Format("Teachers are added specified class {0}.", classGuid));
+            }
+        }
+
+        #endregion
+
+        #region sample group operations
+
+        static void AddUsersToGroup()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IGroupService gService = factory.CreateGroupService();
+
+            string[] usernames = "student,student2".Split(',');
+            bool success = gService.AddUsers("6573F24D-4D0C-48D9-95C4-5BCFDDE80159", usernames);
+
+            if (!success) printError(gService.LastError);
+            else 
+            {
+                foreach (var item in gService.Data)
+                    Console.WriteLine(item.Value);
+            }
+        }
+
+        static void DeleteUsersInGroup()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IGroupService gService = factory.CreateGroupService();
+
+            string[] usernames = "student,student2".Split(',');
+            bool success = gService.RemoveUsers("6573F24D-4D0C-48D9-95C4-5BCFDDE80159", usernames);
+
+            if (!success) printError(gService.LastError);
+            else
+            {
+                foreach (var item in gService.Data)
+                    Console.WriteLine(item.Value);
             }
         }
 

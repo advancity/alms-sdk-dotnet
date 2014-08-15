@@ -51,5 +51,11 @@ namespace AlmsSdk.Service
             ClassService classService = new ClassService(AuthConfig, BaseApiURI);
             return classService;
         }
+
+        public IGroupService CreateGroupService()
+        {
+            GroupService groupService = new GroupService(AuthConfig, BaseApiURI);
+            return groupService;
+        }
     }
 }
