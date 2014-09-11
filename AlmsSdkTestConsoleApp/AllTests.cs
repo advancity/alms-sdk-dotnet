@@ -62,6 +62,7 @@ namespace AlmsSdkTestConsoleApp
                         if (classGuid != Guid.Empty)
                         {
                             EnrollUsers(classGuid, username);
+                            DisenrollUsers(classGuid, username);
                         }
 
                     }
@@ -291,6 +292,23 @@ namespace AlmsSdkTestConsoleApp
             else
             {
                 Console.WriteLine("All users enrolled.");
+            }
+        }
+
+        static void DisenrollUsers(Guid classGuid, params string[] usernames)
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IUserService uService = factory.CreateUserService();
+
+            bool success = uService.Disenroll(classGuid, usernames);
+
+            if (!success)
+            {
+                printError(uService.LastError);
+            }
+            else
+            {
+                Console.WriteLine("All users dienrolled.");
             }
         }
 

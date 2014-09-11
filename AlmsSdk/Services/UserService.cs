@@ -103,6 +103,19 @@ namespace AlmsSdk.Services
             else { this.setError(response); return false; }
         }
 
+        public bool Disenroll(Guid classGuid, params string[] usernames)
+        {
+            IRestRequest request = new RestRequest("/api/user/disenroll?classGuid=" + classGuid.ToString(), Method.POST);
+            string postData = JsonConvert.SerializeObject(usernames);
+            request.AddParameter("application/json; charset=utf-8", postData, ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = Client.Post(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return true;
+            else { this.setError(response); return false; }
+        }
+
         public bool Enroll(Guid programGuid, string className, params string[] usernames)
         {
             IRestRequest request = new RestRequest("/api/user/enroll?className=" + Uri.EscapeUriString(className) + "&programGuid=" + programGuid.ToString(), Method.POST);
@@ -131,7 +144,6 @@ namespace AlmsSdk.Services
         }
 
         #endregion
-
 
         public bool ExpireLoginToken(string username)
         {
