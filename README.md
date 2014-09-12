@@ -4,12 +4,14 @@ ALMS SDK.Net is a set of services to develop software on top of ALMS Web API. <a
 
 You will find a solution which consists of two projects: the main SDK project and a console application which is for testing purposes.
 
-ALMS SDK uses ALMS Web API to carry out operations. ALMS Web API is a RESTful web service. Currently, the API only supports 5 user management operations:
+ALMS SDK uses ALMS Web API to carry out operations. ALMS Web API is a RESTful web service. Currently, the API only supports 7 user management operations:
 - Get
 - Post (Create)
 - Put (Update)
 - Delete
 - Search
+- Enroll
+- Disenroll
 
 
 <h3>How To Use</h3>
