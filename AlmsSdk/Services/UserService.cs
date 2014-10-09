@@ -42,9 +42,9 @@ namespace AlmsSdk.Services
             else { this.setError(response); return null; }
         }
 
-        public IEnumerable<User> Search(string keyword, bool isActive = true)
+        public IEnumerable<User> Search(string keyword, bool isActive = true, int offset = 0, int limit = 100)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/user/search?keyword={0}&isActive={1}", Uri.EscapeUriString(keyword), isActive), Method.GET);
+            IRestRequest request = new RestRequest(string.Format("/api/user/search?keyword={0}&isActive={1}&offset={2}&limit={3}", Uri.EscapeUriString(keyword), isActive, offset, limit), Method.GET);
             IRestResponse response = Client.Get<List<User>>(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<User>>).Data;
@@ -67,9 +67,9 @@ namespace AlmsSdk.Services
             return success;
         }
 
-        public bool Update(User User)
+        public bool Update(User User, Guid? OrganizationGuid = null)
         {
-            IRestRequest request = new RestRequest("/api/user", Method.PUT);
+            IRestRequest request = new RestRequest(string.Format("/api/user?organizationGuid={0}", OrganizationGuid), Method.PUT);
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(User), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 

@@ -57,5 +57,11 @@ namespace AlmsSdk.Service
             GroupService groupService = new GroupService(AuthConfig, BaseApiURI);
             return groupService;
         }
+
+        public IOrganizationService CreateOrganizationService()
+        {
+            OrganizationService organizationService = new OrganizationService(AuthConfig, BaseApiURI);
+            return organizationService;
+        }
     }
 }

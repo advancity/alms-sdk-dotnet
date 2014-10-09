@@ -52,9 +52,9 @@ namespace AlmsSdk.Services
             else { this.setError(response); return null; }
         }
 
-        public IEnumerable<OrganizationalUnit> Search(string keyword, bool isProgram = false, bool isActive = true)
+        public IEnumerable<OrganizationalUnit> Search(string keyword, bool isProgram = false, bool isActive = true, int offset = 0, int limit = 100)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/organizationalunit/search?keyword={0}&isProgram={1}&isActive={2}", Uri.EscapeUriString(keyword), isProgram, isActive), Method.GET);
+            IRestRequest request = new RestRequest(string.Format("/api/organizationalunit/search?keyword={0}&isProgram={1}&isActive={2}&offset={3}&limit={4}", Uri.EscapeUriString(keyword), isProgram, isActive, offset, limit), Method.GET);
             IRestResponse response = Client.Get<List<OrganizationalUnit>>(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<OrganizationalUnit>>).Data;

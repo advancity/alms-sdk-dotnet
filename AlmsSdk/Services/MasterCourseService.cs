@@ -37,9 +37,9 @@ namespace AlmsSdk.Services
             else { this.setError(response); return null; }
         }
 
-        public IEnumerable<MasterCourse> Search(string keyword, bool isActive)
+        public IEnumerable<MasterCourse> Search(string keyword, bool isActive, int offset = 0, int limit = 100)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/mastercourse/search?keyword={0}&isActive={1}", Uri.EscapeUriString(keyword), isActive), Method.GET);
+            IRestRequest request = new RestRequest(string.Format("/api/mastercourse/search?keyword={0}&isActive={1}&offset={2}&limit={3}", Uri.EscapeUriString(keyword), isActive, offset, limit), Method.GET);
             IRestResponse response = Client.Get<List<MasterCourse>>(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<MasterCourse>>).Data;

@@ -11,7 +11,7 @@ namespace AlmsSdk.ServiceContracts
     public interface ICourseService : IService
     {
         Course Get(Guid courseGuid);
-        IEnumerable<Course> Search(string keyword, bool isActive);
+        IEnumerable<Course> Search(string keyword, bool isActive, int offset = 0, int limit = 100);
         Guid Create(Course course);
         bool Delete(Guid courseGuid);
         bool Update(Course course);

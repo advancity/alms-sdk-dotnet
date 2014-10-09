@@ -11,7 +11,7 @@ namespace AlmsSdk.ServiceContracts
     {
         Guid Create(OrganizationalUnit organizationalUnit);
         OrganizationalUnit Get(Guid organizationalUnitGuid);
-        IEnumerable<OrganizationalUnit> Search(string keyword, bool isProgram = false, bool isActive = true);
+        IEnumerable<OrganizationalUnit> Search(string keyword, bool isProgram = false, bool isActive = true, int offset = 0, int limit = 100);
         bool Update(OrganizationalUnit organizationalUnit);
         bool Delete(Guid organizationalUnitGuid);
     }

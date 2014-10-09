@@ -26,7 +26,6 @@ namespace AlmsSdkTestConsoleApp
             string loginToken = GetLoginToken();
             bool success = ExpireLoginToken();
 
-
             Guid masterCourseGuid = Guid.Empty, courseGuid = Guid.Empty, classGuid = Guid.Empty;
 
             string username = "sample_user_" + DateTime.Now.Ticks.ToString();
@@ -77,10 +76,38 @@ namespace AlmsSdkTestConsoleApp
             if (masterCourseGuid != Guid.Empty) DeleteMasterCourse(masterCourseGuid);
             if (programGuid != Guid.Empty) DeleteProgram(programGuid);
 
+            CreateOrganization();
+
             Console.ReadLine();
         }
 
         #region sample user operations
+
+        static void CreateOrganization()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IOrganizationService oService = factory.CreateOrganizationService();
+
+            var organization = new Organization() 
+            {
+                Name = "Test Organizasyonum",
+                Url = "localhost",
+                Culture = "tr-TR",
+                AllowAdvertisement = true,
+                /*User informations*/
+                AdministratorUsername = "adv.test",
+                AdministratorPassword = "!MyPassword",
+                AdministratorEmail = "sample_user@alms.com.tr",
+                AdministratorFirstname = "Test",
+                AdministratorLastname = "Account",
+                AdministratorGender = "Male"
+            };
+
+            bool success = oService.Create(organization);
+
+            if (success) Console.WriteLine(string.Format("OrganizationGuid: {0}", oService.OrganizationId));
+            else printError(oService.LastError);
+        }
 
         static string GetLoginToken() 
         {
@@ -182,12 +209,12 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void SearchUsers(string keyword)
+        static void SearchUsers(string keyword, int offset = 0, int limit = 100)
         {
             ServiceFactory factory = new ServiceFactory();
             IUserService uService = factory.CreateUserService();
 
-            IEnumerable<User> users = uService.Search(keyword); // get users who contain User_ in their names, surnames, email addresses or usernames.
+            IEnumerable<User> users = uService.Search(keyword, true, offset, limit); // get users who contain User_ in their names, surnames, email addresses or usernames.
 
             if (uService.LastError != null)
             {
@@ -334,12 +361,12 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void SearchCourses(string keyword)
+        static void SearchCourses(string keyword, int offset = 0, int limit = 100)
         {
             ServiceFactory factory = new ServiceFactory();
             ICourseService cService = factory.CreateCourseService();
 
-            IEnumerable<Course> courses = cService.Search(keyword, true);
+            IEnumerable<Course> courses = cService.Search(keyword, true, offset, limit);
 
             if (cService.LastError != null)
             {
@@ -518,12 +545,12 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void SearchMasterCourses(string keyword)
+        static void SearchMasterCourses(string keyword, int offset = 0, int limit = 100)
         {
             ServiceFactory factory = new ServiceFactory();
             IMasterCourseService mcService = factory.CreateMasterCourseService();
 
-            IEnumerable<MasterCourse> masterCourses = mcService.Search(keyword, true); // get master course data by masterCourseGuid
+            IEnumerable<MasterCourse> masterCourses = mcService.Search(keyword, true, offset, limit); // get master course data by masterCourseGuid
 
             if (mcService.LastError != null)
             {
@@ -631,12 +658,12 @@ namespace AlmsSdkTestConsoleApp
             }
         }
 
-        static void SearchProgram(string keyword)
+        static void SearchProgram(string keyword, int offset = 0, int limit = 100)
         {
             ServiceFactory factory = new ServiceFactory();
             IOrganizationalUnitService ouService = factory.CreateOrganizationalUnitService();
 
-            IEnumerable<OrganizationalUnit> organizationalUnitList = ouService.Search(keyword, true);
+            IEnumerable<OrganizationalUnit> organizationalUnitList = ouService.Search(keyword, true, true, offset, limit);
 
             if (ouService.LastError != null)
             {
