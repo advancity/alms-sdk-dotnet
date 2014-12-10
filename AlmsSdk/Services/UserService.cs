@@ -35,7 +35,7 @@ namespace AlmsSdk.Services
 
         public User Get(string Username)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/user?username={0}", Username), Method.GET);
+            IRestRequest request = new RestRequest(string.Format("/api/user?username={0}&email=", Username), Method.GET);
             IRestResponse response = Client.Get<User>(request);
 
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return (response as RestResponse<User>).Data;
