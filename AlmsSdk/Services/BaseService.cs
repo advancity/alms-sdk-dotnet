@@ -54,6 +54,8 @@ namespace AlmsSdk.Services
             {
                 if(!string.IsNullOrEmpty(response.Content))
                     LastError.Message = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiErrorMessage>(response.Content).Message;
+                else if (string.IsNullOrEmpty(response.ErrorMessage))
+                    LastError.Message = response.ErrorMessage;
             }
             finally { }
         }
