@@ -61,6 +61,30 @@ namespace AlmsSdk.Services
             else { this.setError(response); Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Content); return false; }
         }
 
+        public string GetGroupListByProgram(string program = "")
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/group/GetGroupList?programIds=" + program), Method.GET);
+
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = Client.Get(request);
+
+            return response.Content;
+        }
+
+        public string GetGroupListByUser(string uName)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/group/GetUserGroupList?userName=" + uName), Method.GET);
+            //string postData = JsonConvert.SerializeObject(uName);
+            //request.AddParameter("application/json; charset=utf-8", postData, ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = Client.Get(request);
+            return response.Content;
+            //if (response.StatusCode == System.Net.HttpStatusCode.OK) { Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Content); return null; }
+            //else { this.setError(response); Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Content); return null; }
+        }
+
         #endregion
     }
 }

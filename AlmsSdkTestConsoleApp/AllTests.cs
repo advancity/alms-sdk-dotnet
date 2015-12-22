@@ -69,6 +69,8 @@ namespace AlmsSdkTestConsoleApp
             }
 
             AddUsersToGroup();
+            GetUserGroup();
+            GetGroupList();
             DeleteUsersInGroup();
 
             DeleteUser(username);
@@ -835,6 +837,27 @@ namespace AlmsSdkTestConsoleApp
                 foreach (var item in gService.Data)
                     Console.WriteLine(item.Value);
             }
+        }
+
+        static void GetGroupList()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IGroupService gService = factory.CreateGroupService();
+
+            //string[] usernames = "student,student2".Split(',');
+            string program = "";
+            Console.WriteLine(gService.GetGroupListByProgram(program));
+
+
+        }
+
+        static void GetUserGroup()
+        {
+            ServiceFactory factory = new ServiceFactory();
+            IGroupService gService = factory.CreateGroupService();
+
+            //string[] usernames = "student,student2".Split(',');
+            Console.WriteLine(gService.GetGroupListByUser("student"));
         }
 
         #endregion

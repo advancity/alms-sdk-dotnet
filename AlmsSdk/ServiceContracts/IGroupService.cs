@@ -12,6 +12,8 @@ namespace AlmsSdk.ServiceContracts
     {
         bool AddUsers(string groupGuid, string[] usernames);
         bool RemoveUsers(string groupGuid, string[] usernames);
+        string GetGroupListByProgram(string ProgramName = "");
+        string GetGroupListByUser(string uName);
         Dictionary<string, string> Data { get; }
 
         //User Get(string username);
