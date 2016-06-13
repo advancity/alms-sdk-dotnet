@@ -63,5 +63,10 @@ namespace AlmsSdk.Service
             OrganizationService organizationService = new OrganizationService(AuthConfig, BaseApiURI);
             return organizationService;
         }
+        public ITermService CreateTermService()
+        {
+            TermService termService = new TermService(AuthConfig, BaseApiURI);
+            return termService;
+        }
     }
 }

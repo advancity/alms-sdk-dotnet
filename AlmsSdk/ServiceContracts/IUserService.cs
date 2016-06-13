@@ -19,5 +19,6 @@ namespace AlmsSdk.ServiceContracts
         bool Disenroll(Guid classGuid, params string[] usernames);
         string GetLoginToken(string username);
         bool ExpireLoginToken(string username);
+        bool ChangeActiveStatus(List<string> guildList, bool activeStatus);
     }
 }

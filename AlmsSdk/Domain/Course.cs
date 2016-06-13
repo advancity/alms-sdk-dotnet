@@ -19,5 +19,6 @@ namespace AlmsSdk.Domain
         public string Abbreviation { get; set; }
         public string ExternalKey { get; set; }
         public Guid MasterCourseGuid { get; set; }
+        public Guid TermGuid { get; set; }
     }
 }

@@ -15,5 +15,6 @@ namespace AlmsSdk.ServiceContracts
         Guid Create(MasterCourse masterCourse);
         bool Delete(Guid masterCourseGuid);
         bool Update(MasterCourse masterCourse);
+        bool ChangeActiveStatus(List<string> guildList, bool activeStatus);
     }
 }

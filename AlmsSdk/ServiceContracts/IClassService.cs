@@ -13,5 +13,7 @@ namespace AlmsSdk.ServiceContracts
         Guid Create(Class Class);
         bool AddTeachers(string ClassGuid, List<string> Teachers);
         bool RemoveTeachers(string ClassGuid, List<string> Teachers);
+        IEnumerable<string> GetStudent(string ClassGuid);
+        IEnumerable<string> GetTeacher(string ClassGuid);
     }
 }

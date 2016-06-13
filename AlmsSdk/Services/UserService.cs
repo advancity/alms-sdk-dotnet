@@ -157,5 +157,17 @@ namespace AlmsSdk.Services
             if (response.StatusCode == System.Net.HttpStatusCode.OK) return true;
             else { this.setError(response); return false; }
         }
+
+        public bool ChangeActiveStatus(List<string> guildList, bool activeStatus)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/User/ChangeActiveStatus?activeStatus={0}", activeStatus), Method.POST);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(guildList), ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = Client.Post<bool>(request);
+
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { this.setError(response); return false; }
+        }
     }
 }
