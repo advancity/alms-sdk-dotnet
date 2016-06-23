@@ -64,6 +64,8 @@
     <Compile Include="Domain\Error.cs" />
     <Compile Include="Domain\MasterCourse.cs" />
     <Compile Include="Domain\OrganizationalUnit.cs" />
+    <Compile Include="Domain\Term.cs" />
+    <Compile Include="Domain\TermWeek.cs" />
     <Compile Include="Domain\UserType.cs" />
     <Compile Include="Functions\Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="ServiceContracts\IClassService.cs" />
     <Compile Include="ServiceContracts\IOrganizationalUnitService.cs" />
     <Compile Include="ServiceContracts\IMasterCourseService.cs" />
+    <Compile Include="ServiceContracts\ITermService.cs" />
     <Compile Include="Services\ClassService.cs" />
     <Compile Include="Services\OrganizationService.cs" />
     <Compile Include="Services\GroupService.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="Services\OrganizationalUnitService.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\ServiceFactory.cs" />
+    <Compile Include="Services\TermService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Domain\User.cs" />
   </ItemGroup>

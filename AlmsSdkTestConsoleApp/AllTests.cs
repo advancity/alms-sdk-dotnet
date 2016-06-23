@@ -368,7 +368,7 @@ namespace AlmsSdkTestConsoleApp
             ServiceFactory factory = new ServiceFactory();
             ICourseService cService = factory.CreateCourseService();
 
-            IEnumerable<Course> courses = cService.Search(keyword, true, offset, limit);
+            IEnumerable<Course> courses = cService.Search(keyword, true,"", offset, limit);
 
             if (cService.LastError != null)
             {
