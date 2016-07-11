@@ -15,5 +15,6 @@ namespace AlmsSdk.ServiceContracts
         bool RemoveTeachers(string ClassGuid, List<string> Teachers);
         IEnumerable<string> GetStudent(string ClassGuid);
         IEnumerable<string> GetTeacher(string ClassGuid);
+        bool DeleteClass(string ClassGuid);
     }
 }

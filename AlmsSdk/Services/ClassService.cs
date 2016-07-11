@@ -101,6 +101,16 @@ namespace AlmsSdk.Services
             else { this.setError(response); return null; }
         }
 
+        public bool DeleteClass(string ClassGuid)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/class/DeleteClass?ClassGuid={0}", ClassGuid), Method.POST);
+
+            IRestResponse response = Client.Post<bool>(request);
+
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { this.setError(response); return false; }
+        }
+
         //public bool Delete(string CourseTrackingGuid)
         //{
         //    IRestRequest request = new RestRequest(string.Format("/api/course?coursetrackingguid={0}", CourseTrackingGuid), Method.DELETE);
