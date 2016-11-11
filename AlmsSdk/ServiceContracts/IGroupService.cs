@@ -10,7 +10,7 @@ namespace AlmsSdk.ServiceContracts
 {
     public interface IGroupService : IService
     {
-        bool AddUsers(string groupGuid, string[] usernames);
+        bool AddUsers(string groupGuid, string[] usernames, bool enrollToRelatedProgram = false);
         bool RemoveUsers(string groupGuid, string[] usernames);
         Dictionary<string, string> Data { get; }
 
