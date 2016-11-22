@@ -35,9 +35,9 @@ namespace AlmsSdk.Services
 
         #region Methods
 
-        public bool AddUsers(string groupGuid, string[] usernames)
+        public bool AddUsers(string groupGuid, string[] usernames, bool enrollToRelatedProgram = false)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/group/{0}/user", groupGuid), Method.POST);
+            IRestRequest request = new RestRequest(string.Format("/api/group/{0}/user?enrollToRelatedProgram={1}", groupGuid, enrollToRelatedProgram), Method.POST);
             string postData = JsonConvert.SerializeObject(usernames);
             request.AddParameter("application/json; charset=utf-8", postData, ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
