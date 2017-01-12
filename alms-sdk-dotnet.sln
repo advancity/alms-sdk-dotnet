@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlmsSdkTestConsoleApp", "AlmsSdkTestConsoleApp\AlmsSdkTestConsoleApp.csproj", "{2D58063B-5884-4477-A223-E60F6BE07E5A}"
-EndProject
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlmsSdk", "AlmsSdk\AlmsSdk.csproj", "{FC1BC9E6-3145-408F-B850-0E7B4BD3524D}"
 EndProject
 Global
@@ -11,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2D58063B-5884-4477-A223-E60F6BE07E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D58063B-5884-4477-A223-E60F6BE07E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D58063B-5884-4477-A223-E60F6BE07E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D58063B-5884-4477-A223-E60F6BE07E5A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FC1BC9E6-3145-408F-B850-0E7B4BD3524D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FC1BC9E6-3145-408F-B850-0E7B4BD3524D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC1BC9E6-3145-408F-B850-0E7B4BD3524D}.Release|Any CPU.ActiveCfg = Release|Any CPU
