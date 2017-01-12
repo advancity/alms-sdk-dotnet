@@ -18,3 +18,4 @@ C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet2\AlmsSdkTestConsoleApp\bin
 C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet2\AlmsSdkTestConsoleApp\obj\Release\AlmsSdkTestConsoleApp.exe
 C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet2\AlmsSdkTestConsoleApp\obj\Release\AlmsSdkTestConsoleApp.pdb
 C:\Users\zafer.gurel\Documents\GitHub\alms-sdk-dotnet2\AlmsSdkTestConsoleApp\obj\Release\AlmsSdkTestConsoleApp.csprojResolveAssemblyReference.cache
+C:\projects\ALMS\alms-sdk-dotnet\AlmsSdkTestConsoleApp\bin\Release\AlmsSdkTestConsoleApp.exe.config
