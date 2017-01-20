@@ -68,5 +68,10 @@ namespace AlmsSdk.Service
             TermService termService = new TermService(AuthConfig, BaseApiURI);
             return termService;
         }
+        public IEnrollmentService CreateEnrollmentService()
+        {
+            EnrollmentService enrollmentService = new EnrollmentService(AuthConfig, BaseApiURI);
+            return enrollmentService;
+        }
     }
 }

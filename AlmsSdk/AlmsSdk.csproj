@@ -63,6 +63,7 @@
     <Compile Include="Domain\ApiObjectId.cs" />
     <Compile Include="Domain\AuthConfig.cs" />
     <Compile Include="Domain\Class.cs" />
+    <Compile Include="Domain\Enrollment.cs" />
     <Compile Include="Domain\Organization.cs" />
     <Compile Include="Domain\Course.cs" />
     <Compile Include="Domain\Enums\CourseViewType.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Domain\UserType.cs" />
     <Compile Include="Functions\Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceContracts\IEnrollmentService.cs" />
     <Compile Include="ServiceContracts\IOrganizationService.cs" />
     <Compile Include="ServiceContracts\IGroupService.cs" />
     <Compile Include="ServiceContracts\IClassService.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="ServiceContracts\IMasterCourseService.cs" />
     <Compile Include="ServiceContracts\ITermService.cs" />
     <Compile Include="Services\ClassService.cs" />
+    <Compile Include="Services\EnrollmentService.cs" />
     <Compile Include="Services\OrganizationService.cs" />
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\CourseService.cs" />

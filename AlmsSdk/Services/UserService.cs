@@ -169,5 +169,23 @@ namespace AlmsSdk.Services
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
             else { this.setError(response); return false; }
         }
+        public IEnumerable<Enrollment> GetEnrollment(string userName, string activityId)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/user/{0}/activity/{1}/enrollment", userName,activityId), Method.GET);
+            IRestResponse response = Client.Get<List<Enrollment>>(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<Enrollment>>).Data;
+            else { this.setError(response); return null; }
+
+        }
+        public IEnumerable<Enrollment> GetEnrollmentByClassId(string userName, string classId)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/user/{0}/class/{1}/enrollment", userName, classId), Method.GET);
+            IRestResponse response = Client.Get<List<Enrollment>>(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<Enrollment>>).Data;
+            else { this.setError(response); return null; }
+
+        }
     }
 }

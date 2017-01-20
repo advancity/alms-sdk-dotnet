@@ -20,5 +20,7 @@ namespace AlmsSdk.ServiceContracts
         string GetLoginToken(string username);
         bool ExpireLoginToken(string username);
         bool ChangeActiveStatus(List<string> guildList, bool activeStatus);
+        IEnumerable<Enrollment> GetEnrollment(string userName, string activityId);
+        IEnumerable<Enrollment> GetEnrollmentByClassId(string userName, string classId);
     }
 }
