@@ -21,11 +21,9 @@ namespace AlmsSdk.Domain
         public DateTime? FirstAttemptDate { get; set; }
         public DateTime? LastAttemptDate { get; set; }
         public int AttemptCount { get; set; }
-        public DateTime? CompetionDate { get; set; }
+        public DateTime? CompletionDate { get; set; }
         public int? TotalSeconds { get; set; }
         public int DownloadCount { get; set; }
-        public int ClassId { get; set; }
-        public int UserId { get; set; }
-        public int OrganizationId { get; set; }
+        public int ClassGuid { get; set; }
     }
 }
