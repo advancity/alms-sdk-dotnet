@@ -31,12 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp, Version=104.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AlmsSdk, Version=1.0.6221.25910, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+      <HintPath>..\..\alms-sdk-test-app\AlmsSdkTestConsoleApp\latest-sdk\AlmsSdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net4\RestSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -58,18 +63,29 @@
     <Compile Include="Domain\ApiObjectId.cs" />
     <Compile Include="Domain\AuthConfig.cs" />
     <Compile Include="Domain\Class.cs" />
+    <Compile Include="Domain\Enrollment.cs" />
+    <Compile Include="Domain\Organization.cs" />
     <Compile Include="Domain\Course.cs" />
     <Compile Include="Domain\Enums\CourseViewType.cs" />
     <Compile Include="Domain\Error.cs" />
     <Compile Include="Domain\MasterCourse.cs" />
     <Compile Include="Domain\OrganizationalUnit.cs" />
+    <Compile Include="Domain\Term.cs" />
+    <Compile Include="Domain\TermWeek.cs" />
     <Compile Include="Domain\UserType.cs" />
     <Compile Include="Functions\Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceContracts\IEnrollmentService.cs" />
+    <Compile Include="ServiceContracts\IOrganizationService.cs" />
+    <Compile Include="ServiceContracts\IGroupService.cs" />
     <Compile Include="ServiceContracts\IClassService.cs" />
     <Compile Include="ServiceContracts\IOrganizationalUnitService.cs" />
     <Compile Include="ServiceContracts\IMasterCourseService.cs" />
+    <Compile Include="ServiceContracts\ITermService.cs" />
     <Compile Include="Services\ClassService.cs" />
+    <Compile Include="Services\EnrollmentService.cs" />
+    <Compile Include="Services\OrganizationService.cs" />
+    <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="ServiceContracts\ICourseService.cs" />
     <Compile Include="ServiceContracts\IService.cs">
@@ -80,6 +96,7 @@
     <Compile Include="Services\OrganizationalUnitService.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\ServiceFactory.cs" />
+    <Compile Include="Services\TermService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Domain\User.cs" />
   </ItemGroup>

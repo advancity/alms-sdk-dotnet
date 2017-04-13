@@ -12,10 +12,12 @@ namespace AlmsSdk.Domain
             Programs = new List<Guid>();
             Categories = new List<string>();
             Audiences = new List<string>();
+            isActive = true;
         }
 
         public Guid MasterCourseGuid { get; set; }
         public string Name { get; set; }
+        public bool isActive { get; set; }
         public string Description { get; set; }
         public string ShortDescription { get; set; }
         public string ApplicationCondition { get; set; }

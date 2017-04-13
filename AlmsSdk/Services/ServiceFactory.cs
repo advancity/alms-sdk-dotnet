@@ -51,5 +51,27 @@ namespace AlmsSdk.Service
             ClassService classService = new ClassService(AuthConfig, BaseApiURI);
             return classService;
         }
+
+        public IGroupService CreateGroupService()
+        {
+            GroupService groupService = new GroupService(AuthConfig, BaseApiURI);
+            return groupService;
+        }
+
+        public IOrganizationService CreateOrganizationService()
+        {
+            OrganizationService organizationService = new OrganizationService(AuthConfig, BaseApiURI);
+            return organizationService;
+        }
+        public ITermService CreateTermService()
+        {
+            TermService termService = new TermService(AuthConfig, BaseApiURI);
+            return termService;
+        }
+        public IEnrollmentService CreateEnrollmentService()
+        {
+            EnrollmentService enrollmentService = new EnrollmentService(AuthConfig, BaseApiURI);
+            return enrollmentService;
+        }
     }
 }

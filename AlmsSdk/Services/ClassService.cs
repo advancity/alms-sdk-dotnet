@@ -84,6 +84,32 @@ namespace AlmsSdk.Services
             if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
             else { this.setError(response); return false; }
         }
+        public IEnumerable<string> GetStudent(string ClassGuid)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/class/GetUsers?courseId={0}", ClassGuid), Method.GET);
+            IRestResponse response = Client.Get<List<string>>(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<string>>).Data;
+            else { this.setError(response); return null; }
+        }
+        public IEnumerable<string> GetTeacher(string ClassGuid)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/class/GetTeacher?classId={0}", ClassGuid), Method.GET);
+            IRestResponse response = Client.Get<List<string>>(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<string>>).Data;
+            else { this.setError(response); return null; }
+        }
+
+        public bool DeleteClass(string ClassGuid)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/class/DeleteClass?ClassGuid={0}", ClassGuid), Method.POST);
+
+            IRestResponse response = Client.Post<bool>(request);
+
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { this.setError(response); return false; }
+        }
 
         //public bool Delete(string CourseTrackingGuid)
         //{

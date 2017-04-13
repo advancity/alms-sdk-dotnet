@@ -36,9 +36,9 @@ namespace AlmsSdk.Services
             else { this.setError(response); return null; }
         }
 
-        public IEnumerable<Course> Search(string keyword, bool isActive)
+        public IEnumerable<Course> Search(string keyword, bool isActive,string termGuid, int offset = 0, int limit = 100)
         {
-            IRestRequest request = new RestRequest(string.Format("/api/course/search?keyword={0}&isActive={1}", System.Uri.EscapeUriString(keyword), isActive), Method.GET);
+            IRestRequest request = new RestRequest(string.Format("/api/course/Search?keyword={0}&isActive={1}&offset={2}&limit={3}&termGuid={4}", System.Uri.EscapeUriString(keyword), isActive, offset, limit,termGuid), Method.GET);
             IRestResponse response = Client.Get<List<Course>>(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<Course>>).Data;
@@ -99,6 +99,27 @@ namespace AlmsSdk.Services
         {
             IRestRequest request = new RestRequest(string.Format("/api/course/removeteachers?courseguid={0}", CourseGuid), Method.POST);
             request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(Teachers), ParameterType.RequestBody);
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = Client.Post<bool>(request);
+
+            if (response.StatusCode.GetHashCode().ToString().StartsWith("2")) return true;
+            else { this.setError(response); return false; }
+        }
+
+        public IEnumerable<Class> GetClassList(string courseGuid)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/course/GetClassList?CourseId={0}", courseGuid), Method.GET);
+            IRestResponse response = Client.Get<List<Class>>(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<Class>>).Data;
+            else { this.setError(response); return null; }
+        }
+
+        public bool ChangeActiveStatus(List<string> guildList, bool activeStatus)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/course/ChangeActiveStatus?activeStatus={0}", activeStatus), Method.POST);
+            request.AddParameter("application/json; charset=utf-8", JsonConvert.SerializeObject(guildList), ParameterType.RequestBody);
             request.RequestFormat = DataFormat.Json;
 
             IRestResponse response = Client.Post<bool>(request);

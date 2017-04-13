@@ -11,6 +11,7 @@ namespace AlmsSdk.Domain
         public Guid CourseGuid { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool? isActive { get; set; }
         public CourseViewType CourseDefaultView { get; set; }
         public ICollection<string> CourseAdmins { get; set; }
         public bool CourseAllowSelfEnrollment { get; set; }
@@ -18,5 +19,6 @@ namespace AlmsSdk.Domain
         public string Abbreviation { get; set; }
         public string ExternalKey { get; set; }
         public Guid MasterCourseGuid { get; set; }
+        public Guid TermGuid { get; set; }
     }
 }

@@ -12,7 +12,8 @@ namespace AlmsSdk.Functions
     {
         protected internal static string GenerateNonce(AuthConfig config, DateTimeOffset httpRequestUTCDate)
         {
-            string content = config.ApiAccessKey + " " + httpRequestUTCDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.RFC1123Pattern);
+            CultureInfo ci = new CultureInfo("en-US");
+            string content = config.ApiAccessKey + " " + httpRequestUTCDate.ToString(ci.DateTimeFormat.RFC1123Pattern, ci.DateTimeFormat);
 
             byte[] keyByte = System.Text.Encoding.UTF8.GetBytes(config.ApiSecretKey);
             var hmacsha256 = new System.Security.Cryptography.HMACSHA256(keyByte);
