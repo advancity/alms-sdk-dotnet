@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlmsSdk", "AlmsSdk\AlmsSdk.csproj", "{FC1BC9E6-3145-408F-B850-0E7B4BD3524D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlmsSdkTestConsoleApp", "..\..\test\alms-sdk-test-app\AlmsSdkTestConsoleApp\AlmsSdkTestConsoleApp.csproj", "{2D58063B-5884-4477-A223-E60F6BE07E5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FC1BC9E6-3145-408F-B850-0E7B4BD3524D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC1BC9E6-3145-408F-B850-0E7B4BD3524D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC1BC9E6-3145-408F-B850-0E7B4BD3524D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D58063B-5884-4477-A223-E60F6BE07E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D58063B-5884-4477-A223-E60F6BE07E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D58063B-5884-4477-A223-E60F6BE07E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D58063B-5884-4477-A223-E60F6BE07E5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

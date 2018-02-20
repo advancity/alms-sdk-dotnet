@@ -73,5 +73,10 @@ namespace AlmsSdk.Service
             EnrollmentService enrollmentService = new EnrollmentService(AuthConfig, BaseApiURI);
             return enrollmentService;
         }
+        public IServerInfoService CreateServerInfoService()
+        {
+            ServerInfoService serverInfoService = new ServerInfoService(AuthConfig, BaseApiURI);
+            return serverInfoService;
+        }
     }
 }
