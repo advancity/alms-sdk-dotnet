@@ -19,5 +19,6 @@ namespace AlmsSdk.ServiceContracts
         bool RemoveTeachers(string CourseGuid, List<string> Teachers);
         IEnumerable<Class> GetClassList(string courseGuid);
         bool ChangeActiveStatus(List<string> guildList, bool activeStatus);
+        IEnumerable<Activities> GetActivityList(string courseExternalKey, bool? isActive = null);
     }
 }

@@ -5,10 +5,10 @@ using System.Text;
 using AlmsSdk.Domain;
 using AlmsSdk.Functions;
 using AlmsSdk.Domain;
-using Newtonsoft.Json;
 using RestSharp;
 using AlmsSdk.ServiceContracts;
 using AlmsSdk.Service;
+using Newtonsoft.Json;
 
 namespace AlmsSdk.Services
 {
@@ -113,6 +113,15 @@ namespace AlmsSdk.Services
             IRestResponse response = Client.Get<List<Class>>(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<Class>>).Data;
+            else { this.setError(response); return null; }
+        }
+
+        public IEnumerable<Activities> GetActivityList(string courseExternalKey , bool? isActive = null)
+        {
+            IRestRequest request = new RestRequest(string.Format("/api/course/GetActivityList?CourseExternalKey={0}&isActive={1}", courseExternalKey,isActive), Method.GET);
+            IRestResponse response = Client.Get<List<Activities>>(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return (response as RestResponse<List<Activities>>).Data;
             else { this.setError(response); return null; }
         }
 
